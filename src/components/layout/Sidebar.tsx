@@ -14,15 +14,11 @@ import {
   Clock,
   Globe,
   MessageSquare,
+  Code,
 } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
-interface SidebarProps {
-  className?: string;
-}
 
 interface SidebarItemProps {
   icon: React.ReactNode;
@@ -55,42 +51,20 @@ const SidebarItem = ({
   );
 };
 
-const Sidebar = ({ className = "" }: SidebarProps) => {
-  // Use the current location to determine active path
+const Sidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { user, signOut } = useAuth();
+  const { signOut } = useAuth();
   const activePath = location.pathname;
 
   return (
-    <div
-      className={cn(
-        "h-full w-[280px] bg-background border-l flex flex-col",
-        className,
-      )}
-    >
+    <div className="h-full w-[280px] bg-background border-l flex flex-col">
       <div className="p-4">
         <div className="flex items-center justify-between mb-6">
-          <Avatar className="h-10 w-10">
-            <AvatarImage
-              src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.id || "user"}`}
-              alt={user?.user_metadata?.full_name || "مستخدم"}
-            />
-            <AvatarFallback>
-              {user?.user_metadata?.full_name
-                ? user.user_metadata.full_name
-                    .split(" ")
-                    .map((n: string) => n[0])
-                    .join("")
-                    .substring(0, 2)
-                : "مس"}
-            </AvatarFallback>
-          </Avatar>
+          <div className="h-8 w-8 bg-primary rounded-full" />
           <div className="text-right">
-            <p className="text-sm font-medium">
-              {user?.user_metadata?.full_name || "مستخدم FollBoost"}
-            </p>
-            <p className="text-xs text-muted-foreground">{user?.email || ""}</p>
+            <p className="text-sm font-medium">لوحة التحكم</p>
+            <p className="text-xs text-muted-foreground">FollBoost</p>
           </div>
         </div>
 
@@ -103,43 +77,37 @@ const Sidebar = ({ className = "" }: SidebarProps) => {
             icon={<LayoutDashboard size={20} />}
             label="لوحة التحكم"
             href="/dashboard"
-            active={activePath === "/dashboard"}
+            active={activePath === "/dashboard" || activePath === "/dashboard/"}
           />
           <SidebarItem
             icon={<PlusCircle size={20} />}
             label="إنشاء طلب"
-            href="/create-order"
-            active={activePath === "/create-order"}
-          />
-          <SidebarItem
-            icon={<Clock size={20} />}
-            label="قائمة الخدمات"
-            href="/services"
-            active={activePath === "/services"}
-          />
-          <SidebarItem
-            icon={<HelpCircle size={20} />}
-            label="معلومات الخدمات"
-            href="/services/info"
-            active={activePath === "/services/info"}
+            href="/dashboard/create-order"
+            active={activePath.includes("/dashboard/create-order")}
           />
           <SidebarItem
             icon={<ListOrdered size={20} />}
             label="إدارة الطلبات"
-            href="/orders"
-            active={activePath === "/orders"}
+            href="/dashboard/orders"
+            active={activePath.includes("/dashboard/orders")}
+          />
+          <SidebarItem
+            icon={<Clock size={20} />}
+            label="الخدمات"
+            href="/dashboard/services"
+            active={activePath.includes("/dashboard/services")}
           />
           <SidebarItem
             icon={<Users size={20} />}
             label="نظام الإحالة"
-            href="/referrals"
-            active={activePath === "/referrals"}
+            href="/dashboard/referrals"
+            active={activePath.includes("/dashboard/referrals")}
           />
           <SidebarItem
             icon={<Wallet size={20} />}
             label="إضافة رصيد"
-            href="/add-funds"
-            active={activePath === "/add-funds"}
+            href="/dashboard/add-funds"
+            active={activePath.includes("/dashboard/add-funds")}
           />
         </div>
 
@@ -147,22 +115,28 @@ const Sidebar = ({ className = "" }: SidebarProps) => {
 
         <div className="space-y-1 py-2">
           <SidebarItem
-            icon={<Settings size={20} />}
-            label="الإعدادات"
-            href="/settings"
-            active={activePath === "/settings"}
+            icon={<MessageSquare size={20} />}
+            label="الدعم الفني"
+            href="/dashboard/tickets"
+            active={activePath.includes("/dashboard/tickets")}
           />
           <SidebarItem
             icon={<Globe size={20} />}
-            label="اللغة والعملة"
-            href="/settings"
-            active={activePath === "/settings"}
+            label="المساعدة"
+            href="/dashboard/help"
+            active={activePath.includes("/dashboard/help")}
           />
           <SidebarItem
-            icon={<MessageSquare size={20} />}
-            label="نظام التذاكر"
-            href="/tickets"
-            active={activePath === "/tickets"}
+            icon={<Settings size={20} />}
+            label="الإعدادات"
+            href="/dashboard/settings"
+            active={activePath.includes("/dashboard/settings")}
+          />
+          <SidebarItem
+            icon={<Code size={20} />}
+            label="إعدادات API"
+            href="/dashboard/api-settings"
+            active={activePath.includes("/dashboard/api-settings")}
           />
         </div>
       </ScrollArea>

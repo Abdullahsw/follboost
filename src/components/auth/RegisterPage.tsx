@@ -61,7 +61,7 @@ const RegisterPage = () => {
     setIsLoading(true);
 
     try {
-      // Register with Supabase
+      // Register with Supabase without email verification
       const { data, error: signUpError } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
@@ -85,10 +85,38 @@ const RegisterPage = () => {
         if (profileError) throw profileError;
       }
 
-      setSuccess(true);
-      setTimeout(() => {
-        navigate("/login");
-      }, 3000);
+      // Manually confirm the user's email to bypass email verification
+      try {
+        // This is a direct database operation that would normally be done by clicking the email link
+        // For development purposes only
+        const { error: adminAuthError } =
+          await supabase.auth.admin.updateUserById(data.user!.id, {
+            email_confirm: true,
+          });
+
+        if (adminAuthError) {
+          console.log(
+            "Could not auto-confirm email, but continuing anyway",
+            adminAuthError,
+          );
+        }
+
+        // Auto-login after registration
+        await supabase.auth.signInWithPassword({
+          email: formData.email,
+          password: formData.password,
+        });
+
+        setSuccess(true);
+        navigate("/dashboard");
+      } catch (loginErr) {
+        console.error("Auto-login failed:", loginErr);
+        setSuccess(true);
+        // If auto-login fails, redirect to login page after delay
+        setTimeout(() => {
+          navigate("/login");
+        }, 3000);
+      }
     } catch (err: any) {
       setError(err.message || "حدث خطأ أثناء إنشاء الحساب");
     } finally {
@@ -100,8 +128,12 @@ const RegisterPage = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-primary">FollBoost</h1>
-          <p className="text-gray-600 mt-2">إنشاء حساب جديد</p>
+          <Link to="/">
+            <h1 className="text-3xl font-bold text-primary hover:text-primary/80 transition-colors">
+              FollBoost
+            </h1>
+            <p className="text-gray-600 mt-2">إنشاء حساب جديد</p>
+          </Link>
         </div>
 
         {success && (

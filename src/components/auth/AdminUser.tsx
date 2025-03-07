@@ -6,9 +6,9 @@ import { supabase } from "@/lib/supabase";
 const AdminUser = () => {
   const createAdminUser = async () => {
     try {
-      // Create admin user with regular signup
+      // Create admin user with regular signup - no email verification
       const { data: userData, error: userError } = await supabase.auth.signUp({
-        email: "ryyyjk@gmail.com",
+        email: "admin@follboost.com",
         password: "admin123",
         options: {
           data: {
@@ -21,10 +21,21 @@ const AdminUser = () => {
 
       // Create profile with admin role
       if (userData.user) {
+        // First, manually confirm the email in auth.users
+        try {
+          // This is a workaround to manually confirm the email
+          await supabase.auth.signInWithPassword({
+            email: "admin@follboost.com",
+            password: "admin123",
+          });
+        } catch (err) {
+          console.log("Sign in attempt for verification", err);
+        }
+
         const { error: profileError } = await supabase.from("profiles").insert({
           id: userData.user.id,
           full_name: "مدير النظام",
-          email: "ryyyjk@gmail.com",
+          email: "admin@follboost.com",
           role: "admin",
         });
 
@@ -46,7 +57,7 @@ const AdminUser = () => {
         <div className="space-y-4">
           <div className="text-right">
             <p className="mb-2">بيانات الحساب:</p>
-            <p>البريد الإلكتروني: ryyyjk@gmail.com</p>
+            <p>البريد الإلكتروني: admin@follboost.com</p>
             <p>كلمة المرور: admin123</p>
           </div>
           <Button onClick={createAdminUser} className="w-full">

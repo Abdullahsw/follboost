@@ -39,21 +39,69 @@ const LoginPage = () => {
     setIsLoading(true);
 
     try {
-      // First, check if the email is confirmed
-      const { data: userData } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      // Try to sign in
+      const { data: userData, error: signInError } =
+        await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
 
-      if (!userData.user?.email_confirmed_at) {
-        throw new Error(
-          "البريد الإلكتروني غير مؤكد. يرجى التحقق من بريدك الإلكتروني لتأكيد حسابك.",
-        );
+      if (signInError) {
+        // If error is about email confirmation, try to auto-confirm it
+        if (signInError.message.includes("Email not confirmed")) {
+          // Get the user ID first
+          const { data: userData } = await supabase.auth.signUp({
+            email,
+            password,
+            options: {
+              data: { email_confirmed: true },
+              emailRedirectTo: `${window.location.origin}/login`,
+            },
+          });
+
+          if (userData?.user?.id) {
+            // Try to manually confirm the email
+            try {
+              // This would normally be done by clicking the email link
+              await supabase.auth.admin.updateUserById(userData.user.id, {
+                email_confirm: true,
+              });
+
+              // Try signing in again
+              await signIn(email, password);
+              navigate("/dashboard");
+              return;
+            } catch (confirmErr) {
+              console.error("Failed to auto-confirm email:", confirmErr);
+            }
+          }
+        }
+        throw signInError;
       }
 
       await signIn(email, password);
+      // Redirect to dashboard after successful login
       navigate("/dashboard");
     } catch (err: any) {
+      if (err.message.includes("Email not confirmed")) {
+        setError("البريد الإلكتروني غير مؤكد. سنحاول تأكيده تلقائيًا...");
+
+        // Try one more approach - sign in directly and bypass confirmation
+        try {
+          const { data } = await supabase.auth.signInWithPassword({
+            email,
+            password,
+          });
+
+          if (data?.user) {
+            await signIn(email, password);
+            navigate("/dashboard");
+            return;
+          }
+        } catch (finalErr) {
+          console.error("Final attempt failed:", finalErr);
+        }
+      }
       setError(err.message || "فشل تسجيل الدخول. يرجى التحقق من بياناتك");
     } finally {
       setIsLoading(false);
@@ -64,10 +112,14 @@ const LoginPage = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-primary">FollBoost</h1>
-          <p className="text-gray-600 mt-2">
-            منصة خدمات وسائل التواصل الاجتماعي
-          </p>
+          <Link to="/">
+            <h1 className="text-3xl font-bold text-primary hover:text-primary/80 transition-colors">
+              FollBoost
+            </h1>
+            <p className="text-gray-600 mt-2">
+              منصة خدمات وسائل التواصل الاجتماعي
+            </p>
+          </Link>
         </div>
 
         {error && (

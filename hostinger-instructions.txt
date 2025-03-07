@@ -1,0 +1,69 @@
+# Hostinger Server Configuration for API Connections
+
+## Step 1: Log in to Hostinger Control Panel
+1. Go to https://hpanel.hostinger.com/
+2. Enter your email and password
+3. Click "Log in"
+
+## Step 2: Select Your Website
+1. From the dashboard, select the website you want to configure
+
+## Step 3: Configure PHP Settings
+1. In the left sidebar, click on "Advanced"
+2. Select "PHP Configuration"
+3. Make sure the following extensions are enabled:
+   - curl
+   - openssl
+   - json
+   - mbstring
+4. If any of these extensions are not enabled, check the box next to them
+5. Click "Save" at the bottom of the page
+
+## Step 4: Configure Firewall Settings
+1. In the left sidebar, click on "Security"
+2. Select "Firewall"
+3. Check if there are any outgoing connection restrictions
+4. If there are restrictions, add the following domains to the whitelist:
+   - smmstone.com
+   - api.smmstone.com
+5. Click "Save Changes"
+
+## Step 5: Check PHP Version
+1. In the left sidebar, click on "Advanced"
+2. Select "PHP Configuration"
+3. Make sure you're using PHP 7.4 or higher
+4. If you need to change the PHP version:
+   - Select the desired version from the dropdown
+   - Click "Save"
+
+## Step 6: Restart PHP
+1. In the left sidebar, click on "Advanced"
+2. Select "Restart Scripts"
+3. Click on "Restart PHP"
+4. Wait for the restart to complete
+
+## Step 7: Test the Connection
+1. Return to your application
+2. Try connecting to the API again
+3. If you still encounter issues, check the error logs:
+   - In the Hostinger control panel, go to "Advanced" > "Error Logs"
+   - Look for any errors related to cURL, SSL, or connection issues
+
+## Additional Troubleshooting
+
+### If you're still having issues with outgoing connections:
+
+1. **Check .htaccess file**:
+   - Make sure there are no rules blocking outgoing connections
+   - You can add this line to allow outgoing connections:
+     ```
+     SetEnv allow_url_fopen On
+     ```
+
+2. **Check PHP memory limit**:
+   - In PHP Configuration, ensure the memory limit is at least 128M
+
+3. **Contact Hostinger Support**:
+   - If you've tried all the above steps and still have issues
+   - Provide them with the specific error messages you're receiving
+   - Ask them to check if there are any server-level restrictions for outgoing API connections

@@ -56,6 +56,13 @@ const AdminSidebar = () => {
   const { signOut } = useAuth();
   const activePath = location.pathname;
 
+  // Make sure all paths are active
+  const isActive = (path: string) => {
+    if (path === "/admin" && activePath === "/admin") return true;
+    if (path !== "/admin" && activePath.includes(path)) return true;
+    return false;
+  };
+
   return (
     <div className="h-full w-[280px] bg-background border-l flex flex-col">
       <div className="p-4">
@@ -76,49 +83,49 @@ const AdminSidebar = () => {
             icon={<LayoutDashboard size={20} />}
             label="لوحة التحكم"
             href="/admin"
-            active={activePath === "/admin"}
+            active={isActive("/admin")}
           />
           <SidebarItem
             icon={<Users size={20} />}
             label="إدارة المستخدمين"
             href="/admin/users"
-            active={activePath === "/admin/users"}
+            active={isActive("/admin/users")}
           />
           <SidebarItem
             icon={<ShoppingCart size={20} />}
             label="إدارة الطلبات"
             href="/admin/orders"
-            active={activePath === "/admin/orders"}
+            active={isActive("/admin/orders")}
           />
           <SidebarItem
             icon={<Package size={20} />}
             label="إدارة الخدمات"
             href="/admin/services"
-            active={activePath === "/admin/services"}
+            active={isActive("/admin/services")}
           />
           <SidebarItem
             icon={<LinkIcon size={20} />}
             label="تكامل API"
             href="/admin/api-integration"
-            active={activePath === "/admin/api-integration"}
+            active={isActive("/admin/api-integration")}
           />
           <SidebarItem
             icon={<Users size={20} />}
             label="اللوحات الفرعية"
             href="/admin/child-panel"
-            active={activePath === "/admin/child-panel"}
+            active={isActive("/admin/child-panel")}
           />
           <SidebarItem
             icon={<BarChart3 size={20} />}
             label="التقارير والإحصائيات"
             href="/admin/reports"
-            active={activePath === "/admin/reports"}
+            active={isActive("/admin/reports")}
           />
           <SidebarItem
             icon={<FileText size={20} />}
             label="المحتوى والصفحات"
             href="/admin/content"
-            active={activePath === "/admin/content"}
+            active={isActive("/admin/content")}
           />
         </div>
 
@@ -129,13 +136,13 @@ const AdminSidebar = () => {
             icon={<Settings size={20} />}
             label="إعدادات النظام"
             href="/admin/settings"
-            active={activePath === "/admin/settings"}
+            active={isActive("/admin/settings")}
           />
           <SidebarItem
             icon={<HelpCircle size={20} />}
             label="الدعم الفني"
             href="/admin/support"
-            active={activePath === "/admin/support"}
+            active={isActive("/admin/support")}
           />
         </div>
       </ScrollArea>

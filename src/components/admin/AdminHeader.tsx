@@ -33,6 +33,7 @@ const AdminHeader = ({
     e.preventDefault();
     // Implement search functionality here
     console.log("Admin searching for:", searchQuery);
+    alert(`جاري البحث عن: ${searchQuery}`);
   };
 
   const handleLogout = () => {
@@ -79,6 +80,7 @@ const AdminHeader = ({
               variant="ghost"
               size="icon"
               className="relative text-white hover:bg-primary-foreground/20"
+              onClick={() => alert("تم النقر على زر الإشعارات")}
             >
               <Bell className="h-5 w-5" />
               <span className="absolute top-1 right-1 bg-red-500 rounded-full w-2 h-2"></span>

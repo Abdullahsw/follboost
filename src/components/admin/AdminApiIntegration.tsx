@@ -67,10 +67,31 @@ const AdminApiIntegration = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
+    // Add the provider to the providers array
+    const newProvider = {
+      id: `PRV-00${providers.length + 1}`,
+      name:
+        (document.getElementById("provider-name") as HTMLInputElement)?.value ||
+        "New Provider",
+      url:
+        (document.getElementById("api-url") as HTMLInputElement)?.value ||
+        "https://api.example.com",
+      status: "متصل",
+      services: Math.floor(Math.random() * 100) + 50,
+      lastSync:
+        new Date().toISOString().split("T")[0] +
+        " " +
+        new Date().toTimeString().split(" ")[0].substring(0, 5),
+      balance: `${(Math.random() * 500).toFixed(2)}`,
+    };
+
     // Simulate API call
     setTimeout(() => {
       setIsSubmitting(false);
       setSuccess(true);
+
+      // Add the new provider to the list
+      providers.push(newProvider);
 
       // Hide success message after 3 seconds
       setTimeout(() => {
@@ -99,7 +120,13 @@ const AdminApiIntegration = () => {
 
   const handleSyncServices = (providerId: string) => {
     console.log(`Syncing services for provider ${providerId}`);
-    // Implement service sync functionality
+    // Show a loading message
+    alert(`جاري مزامنة الخدمات لمزود الخدمة ${providerId}`);
+
+    // Simulate API sync
+    setTimeout(() => {
+      alert("تمت مزامنة الخدمات بنجاح");
+    }, 1500);
   };
 
   return (
@@ -187,7 +214,15 @@ const AdminApiIntegration = () => {
                               <RefreshCw className="h-4 w-4 ml-1" />
                               مزامنة
                             </Button>
-                            <Button variant="outline" size="sm">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() =>
+                                alert(
+                                  `تم النقر على زر تعديل المزود ${provider.id}`,
+                                )
+                              }
+                            >
                               تعديل
                             </Button>
                           </div>

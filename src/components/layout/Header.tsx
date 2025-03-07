@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Bell, Menu, Search, User } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -35,10 +36,15 @@ const Header = ({
     console.log("Searching for:", searchQuery);
   };
 
-  const handleLogout = () => {
-    // Implement logout functionality here
-    console.log("Logging out");
-    navigate("/login");
+  const handleLogout = async () => {
+    try {
+      // Sign out with Supabase
+      await supabase.auth.signOut();
+      console.log("Logged out successfully");
+      navigate("/login");
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
   };
 
   return (
@@ -103,7 +109,7 @@ const Header = ({
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="text-right">
                   <Link
-                    to="/profile"
+                    to="/dashboard/profile"
                     className="flex w-full justify-end items-center gap-2"
                   >
                     الملف الشخصي
@@ -112,7 +118,7 @@ const Header = ({
                 </DropdownMenuItem>
                 <DropdownMenuItem className="text-right">
                   <Link
-                    to="/settings"
+                    to="/dashboard/settings"
                     className="flex w-full justify-end items-center gap-2"
                   >
                     الإعدادات

@@ -3,36 +3,25 @@ import { Outlet } from "react-router-dom";
 import Header from "../layout/Header";
 import Sidebar from "../layout/Sidebar";
 
-interface UserLayoutProps {
-  userName?: string;
-  userAvatar?: string;
-}
-
-const UserLayout = ({
-  userName = "محمد أحمد",
-  userAvatar = "https://api.dicebear.com/7.x/avataaars/svg?seed=user123",
-}: UserLayoutProps) => {
+const UserLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
-
   return (
-    <div className="flex h-screen bg-gray-50">
-      {/* Sidebar - hidden on mobile by default */}
+    <div className="flex h-screen overflow-hidden bg-gray-50">
+      {/* Sidebar */}
       <div
-        className={`fixed inset-y-0 right-0 z-50 transform ${sidebarOpen ? "translate-x-0" : "translate-x-full"} md:relative md:translate-x-0 transition-transform duration-300 ease-in-out`}
+        className={`${sidebarOpen ? "block" : "hidden"} md:block md:w-[280px] flex-shrink-0`}
       >
         <Sidebar />
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex flex-col flex-1 overflow-hidden">
+        {/* Header */}
         <Header
-          onToggleSidebar={toggleSidebar}
-          userName={userName}
-          userAvatar={userAvatar}
+          onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+          userName="محمد أحمد"
+          userAvatar="https://api.dicebear.com/7.x/avataaars/svg?seed=user123"
           isLoggedIn={true}
         />
 
@@ -40,7 +29,7 @@ const UserLayout = ({
         {sidebarOpen && (
           <div
             className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
-            onClick={toggleSidebar}
+            onClick={() => setSidebarOpen(false)}
           ></div>
         )}
 

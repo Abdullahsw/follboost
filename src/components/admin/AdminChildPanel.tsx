@@ -52,14 +52,34 @@ const AdminChildPanel = () => {
     },
   ];
 
+  const [childPanelsState, setChildPanelsState] = useState(childPanels);
+
   const handleCreateChildPanel = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+
+    // Create a new child panel object
+    const newPanel = {
+      id: `CP-00${childPanelsState.length + 4}`,
+      name:
+        (document.getElementById("panel-name") as HTMLInputElement)?.value ||
+        "لوحة جديدة",
+      owner:
+        (document.getElementById("owner-email") as HTMLInputElement)?.value ||
+        "new@example.com",
+      domain: `${(document.getElementById("domain") as HTMLInputElement)?.value || "new"}.follboost.com`,
+      status: "نشط",
+      created: new Date().toISOString().split("T")[0],
+      services: 0,
+    };
 
     // Simulate API call
     setTimeout(() => {
       setIsSubmitting(false);
       setSuccess(true);
+
+      // Add the new panel to the state
+      setChildPanelsState([...childPanelsState, newPanel]);
 
       // Hide success message after 3 seconds
       setTimeout(() => {
@@ -124,7 +144,7 @@ const AdminChildPanel = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {childPanels.map((panel) => (
+                    {childPanelsState.map((panel) => (
                       <TableRow key={panel.id}>
                         <TableCell className="font-medium">
                           {panel.id}
