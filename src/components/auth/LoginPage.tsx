@@ -29,80 +29,47 @@ const LoginPage = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     setError("");
 
-    if (!email || !password) {
-      setError("يرجى إدخال البريد الإلكتروني وكلمة المرور");
-      return;
-    }
-
-    setIsLoading(true);
-
     try {
-      // Try to sign in
-      const { data: userData, error: signInError } =
+      console.log("Login attempt with email:", email);
+
+      if (!email || !password) {
+        throw new Error("يرجى إدخال البريد الإلكتروني وكلمة المرور");
+      }
+
+      // Try to sign in directly with Supabase
+      const { data, error: signInError } =
         await supabase.auth.signInWithPassword({
           email,
           password,
         });
 
       if (signInError) {
-        // If error is about email confirmation, try to auto-confirm it
-        if (signInError.message.includes("Email not confirmed")) {
-          // Get the user ID first
-          const { data: userData } = await supabase.auth.signUp({
-            email,
-            password,
-            options: {
-              data: { email_confirmed: true },
-              emailRedirectTo: `${window.location.origin}/login`,
-            },
-          });
-
-          if (userData?.user?.id) {
-            // Try to manually confirm the email
-            try {
-              // This would normally be done by clicking the email link
-              await supabase.auth.admin.updateUserById(userData.user.id, {
-                email_confirm: true,
-              });
-
-              // Try signing in again
-              await signIn(email, password);
-              navigate("/dashboard");
-              return;
-            } catch (confirmErr) {
-              console.error("Failed to auto-confirm email:", confirmErr);
-            }
-          }
-        }
+        console.error("Supabase sign in error:", signInError);
         throw signInError;
       }
 
-      await signIn(email, password);
-      // Redirect to dashboard after successful login
+      console.log("Login successful, navigating to dashboard");
       navigate("/dashboard");
-    } catch (err: any) {
-      if (err.message.includes("Email not confirmed")) {
-        setError("البريد الإلكتروني غير مؤكد. سنحاول تأكيده تلقائيًا...");
+    } catch (error) {
+      console.error("Login error:", error);
 
-        // Try one more approach - sign in directly and bypass confirmation
-        try {
-          const { data } = await supabase.auth.signInWithPassword({
-            email,
-            password,
-          });
-
-          if (data?.user) {
-            await signIn(email, password);
-            navigate("/dashboard");
-            return;
-          }
-        } catch (finalErr) {
-          console.error("Final attempt failed:", finalErr);
-        }
+      // More detailed error handling
+      if (error.message === "Failed to fetch") {
+        setError(
+          "فشل الاتصال بالخادم. يرجى التحقق من اتصال الإنترنت الخاص بك والمحاولة مرة أخرى.",
+        );
+      } else if (error.message === "Invalid login credentials") {
+        setError("بيانات الدخول غير صحيحة");
+      } else if (error.message.includes("Email not confirmed")) {
+        setError(
+          "البريد الإلكتروني غير مؤكد. يرجى التحقق من بريدك الإلكتروني.",
+        );
+      } else {
+        setError(error.message || "حدث خطأ أثناء تسجيل الدخول");
       }
-      setError(err.message || "فشل تسجيل الدخول. يرجى التحقق من بياناتك");
     } finally {
       setIsLoading(false);
     }
@@ -185,7 +152,14 @@ const LoginPage = () => {
                 />
               </div>
               <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "جاري تسجيل الدخول..." : "تسجيل الدخول"}
+                {isLoading ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                    جاري تسجيل الدخول...
+                  </span>
+                ) : (
+                  "تسجيل الدخول"
+                )}
               </Button>
             </form>
           </CardContent>

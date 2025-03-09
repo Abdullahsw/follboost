@@ -14,6 +14,7 @@ import {
   Package,
   Shield,
   Link as LinkIcon,
+  DollarSign,
 } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
@@ -102,6 +103,12 @@ const AdminSidebar = () => {
             label="إدارة الخدمات"
             href="/admin/services"
             active={isActive("/admin/services")}
+          />
+          <SidebarItem
+            icon={<DollarSign size={20} />}
+            label="إدارة الأرصدة"
+            href="/admin/funds"
+            active={isActive("/admin/funds")}
           />
           <SidebarItem
             icon={<LinkIcon size={20} />}

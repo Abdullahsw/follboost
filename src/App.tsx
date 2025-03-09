@@ -1,10 +1,12 @@
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useState, useEffect } from "react";
 import { useRoutes, Routes, Route, Navigate } from "react-router-dom";
 import routes from "tempo-routes";
 import { AuthProvider } from "./contexts/AuthContext";
 import AuthGuard from "./components/auth/AuthGuard";
 import AdminAuthGuard from "./components/auth/AdminAuthGuard";
+import AdminFundsManagement from "./components/admin/funds/AdminFundsManagement";
 import ErrorBoundary from "./components/ErrorBoundary";
+import { supabase } from "./lib/supabase";
 
 // Landing Pages
 const LandingPage = lazy(() => import("./components/landing/LandingPage"));
@@ -74,6 +76,52 @@ const OrderManagement = lazy(
 );
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Test Supabase connection
+    const testConnection = async () => {
+      try {
+        console.log("Testing Supabase connection...");
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // Give time for console logs
+        setIsLoading(false);
+      } catch (err) {
+        console.error("Error:", err);
+        setError(err.message || "An unknown error occurred");
+        setIsLoading(false);
+      }
+    };
+
+    testConnection();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-700">جاري تحميل التطبيق...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen p-4">
+        <h1 className="text-2xl font-bold text-red-600 mb-4">خطأ في التطبيق</h1>
+        <p className="text-gray-700 mb-4 text-center">{error}</p>
+        <button
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          onClick={() => window.location.reload()}
+        >
+          إعادة تحميل التطبيق
+        </button>
+      </div>
+    );
+  }
+
   return (
     <ErrorBoundary>
       <AuthProvider>
@@ -142,6 +190,7 @@ function App() {
                 <Route path="users" element={<UserManagement />} />
                 <Route path="orders" element={<OrderManagement />} />
                 <Route path="services" element={<ServiceManagement />} />
+                <Route path="funds" element={<AdminFundsManagement />} />
                 <Route
                   path="api-integration"
                   element={<AdminApiIntegration />}
