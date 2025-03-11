@@ -12,6 +12,9 @@ sudo find /var/www/follboost -type f -exec chmod 644 {} \;
 # Make sure .sh files are executable
 sudo find /var/www/follboost -name "*.sh" -exec chmod +x {} \;
 
+# Make esbuild executable
+sudo chmod +x /var/www/follboost/node_modules/@esbuild/linux-x64/bin/esbuild
+
 # Make sure .htaccess is properly set
 sudo chmod 644 /var/www/follboost/.htaccess
 
