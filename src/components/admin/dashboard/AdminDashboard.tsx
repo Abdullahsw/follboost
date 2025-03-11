@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, ShoppingCart, DollarSign, TrendingUp } from "lucide-react";
 import AdminOrdersTable from "./AdminOrdersTable";
 import AdminRevenueChart from "./AdminRevenueChart";
+import AdminSupabaseStatus from "../AdminSupabaseStatus";
 
 const AdminDashboard = () => {
   return (
@@ -74,8 +75,14 @@ const AdminDashboard = () => {
         </Card>
       </div>
 
-      {/* Revenue Chart */}
-      <AdminRevenueChart />
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+        <div className="md:col-span-3">
+          <AdminRevenueChart />
+        </div>
+        <div className="md:col-span-1">
+          <AdminSupabaseStatus />
+        </div>
+      </div>
 
       {/* Recent Orders */}
       <AdminOrdersTable />

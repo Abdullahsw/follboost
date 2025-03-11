@@ -6,7 +6,7 @@ import AuthGuard from "./components/auth/AuthGuard";
 import AdminAuthGuard from "./components/auth/AdminAuthGuard";
 import AdminFundsManagement from "./components/admin/funds/AdminFundsManagement";
 import ErrorBoundary from "./components/ErrorBoundary";
-import { supabase } from "./lib/supabase";
+import { supabaseClient as supabase } from "./lib/supabase-client";
 
 // Landing Pages
 const LandingPage = lazy(() => import("./components/landing/LandingPage"));
@@ -15,6 +15,9 @@ const PrivacyPage = lazy(() => import("./components/landing/PrivacyPage"));
 
 // Settings Pages
 const ApiSettings = lazy(() => import("./components/settings/ApiSettings"));
+const SupabaseSettings = lazy(
+  () => import("./components/settings/SupabaseSettings"),
+);
 
 // Auth Pages
 const LoginPage = lazy(() => import("./components/auth/LoginPage"));
@@ -84,7 +87,24 @@ function App() {
     const testConnection = async () => {
       try {
         console.log("Testing Supabase connection...");
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // Give time for console logs
+        console.log("Environment variables:", {
+          VITE_SUPABASE_URL: import.meta.env.VITE_SUPABASE_URL
+            ? "set"
+            : "not set",
+          VITE_SUPABASE_ANON_KEY: import.meta.env.VITE_SUPABASE_ANON_KEY
+            ? "set"
+            : "not set",
+        });
+
+        const { data, error } = await supabase
+          .from("profiles")
+          .select("count")
+          .limit(1);
+        if (error) {
+          console.error("Supabase connection error:", error);
+          throw error;
+        }
+        console.log("Supabase connection successful:", data);
         setIsLoading(false);
       } catch (err) {
         console.error("Error:", err);
@@ -173,6 +193,10 @@ function App() {
                 <Route path="profile" element={<ProfilePage />} />
                 <Route path="settings" element={<LanguageCurrencySettings />} />
                 <Route path="api-settings" element={<ApiSettings />} />
+                <Route
+                  path="supabase-settings"
+                  element={<SupabaseSettings />}
+                />
                 <Route path="tickets" element={<TicketSystem />} />
                 <Route path="help" element={<ServicesPage />} />
               </Route>

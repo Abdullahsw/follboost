@@ -12,9 +12,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { AlertCircle, CheckCircle } from "lucide-react";
+import { CheckCircle, AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { supabase } from "@/lib/supabase";
+import AuthErrorHandler from "./AuthErrorHandler";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabaseClient as supabase } from "@/lib/supabase-client";
 
 const RegisterPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -29,6 +31,7 @@ const RegisterPage = () => {
   });
 
   const navigate = useNavigate();
+  const { signUp } = useAuth();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -73,7 +76,17 @@ const RegisterPage = () => {
         },
       });
 
-      if (signUpError) throw signUpError;
+      if (signUpError) {
+        if (
+          signUpError.message.includes("API key") ||
+          signUpError.message.includes("No API key")
+        ) {
+          throw new Error(
+            "خطأ في تكوين التطبيق: مفتاح API غير موجود. يرجى التحقق من إعدادات البيئة.",
+          );
+        }
+        throw signUpError;
+      }
 
       // Create user profile in database
       if (data.user) {
@@ -118,7 +131,25 @@ const RegisterPage = () => {
         }, 3000);
       }
     } catch (err: any) {
-      setError(err.message || "حدث خطأ أثناء إنشاء الحساب");
+      console.error("Registration error:", err);
+
+      // More detailed error handling
+      if (err.message === "Failed to fetch") {
+        setError(
+          "فشل الاتصال بالخادم. يرجى التحقق من اتصال الإنترنت الخاص بك والمحاولة مرة أخرى.",
+        );
+      } else if (err.message.includes("already registered")) {
+        setError("البريد الإلكتروني مسجل بالفعل");
+      } else if (
+        err.message.includes("API key") ||
+        err.message.includes("No API key")
+      ) {
+        setError(
+          "خطأ في تكوين التطبيق: مفتاح API غير موجود. يرجى التحقق من إعدادات البيئة.",
+        );
+      } else {
+        setError(err.message || "حدث خطأ أثناء إنشاء الحساب");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -149,13 +180,13 @@ const RegisterPage = () => {
           </Alert>
         )}
 
-        {error && (
-          <Alert variant="destructive" className="mb-6">
-            <AlertCircle className="h-4 w-4" />
-            <AlertTitle className="text-right">خطأ</AlertTitle>
-            <AlertDescription className="text-right">{error}</AlertDescription>
-          </Alert>
-        )}
+        <AuthErrorHandler
+          error={error}
+          onRetry={() => {
+            setError("");
+            // Clear form fields if needed
+          }}
+        />
 
         <Card>
           <CardHeader>

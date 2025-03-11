@@ -13,9 +13,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { AlertCircle } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import AuthErrorHandler from "./AuthErrorHandler";
 import { useAuth } from "@/contexts/AuthContext";
-import { supabase } from "@/lib/supabase";
+import { supabaseClient as supabase } from "@/lib/supabase-client";
 
 const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -67,6 +67,13 @@ const LoginPage = () => {
         setError(
           "البريد الإلكتروني غير مؤكد. يرجى التحقق من بريدك الإلكتروني.",
         );
+      } else if (
+        error.message.includes("API key") ||
+        error.message.includes("No API key")
+      ) {
+        setError(
+          "خطأ في تكوين التطبيق: مفتاح API غير موجود. يرجى التحقق من إعدادات البيئة.",
+        );
       } else {
         setError(error.message || "حدث خطأ أثناء تسجيل الدخول");
       }
@@ -89,13 +96,13 @@ const LoginPage = () => {
           </Link>
         </div>
 
-        {error && (
-          <Alert variant="destructive" className="mb-6">
-            <AlertCircle className="h-4 w-4" />
-            <AlertTitle className="text-right">خطأ</AlertTitle>
-            <AlertDescription className="text-right">{error}</AlertDescription>
-          </Alert>
-        )}
+        <AuthErrorHandler
+          error={error}
+          onRetry={() => {
+            setError("");
+            // Clear form fields if needed
+          }}
+        />
 
         <Card>
           <CardHeader>
