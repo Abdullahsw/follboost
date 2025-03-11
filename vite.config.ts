@@ -8,7 +8,21 @@ if (process.env.TEMPO === "true") {
   conditionalPlugins.push(["tempo-devtools/swc", {}]);
 }
 
+// Load environment variables
+import dotenv from "dotenv";
+dotenv.config();
+
 export default defineConfig({
+  define: {
+    "import.meta.env.VITE_SUPABASE_URL": JSON.stringify(
+      process.env.VITE_SUPABASE_URL ||
+        "https://qnkfvwlxqbxnwfxjqnzs.supabase.co",
+    ),
+    "import.meta.env.VITE_SUPABASE_ANON_KEY": JSON.stringify(
+      process.env.VITE_SUPABASE_ANON_KEY ||
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFua2Z2d2x4cWJ4bndmeGpxbnpzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTc2MzA0MDAsImV4cCI6MjAzMzIwNjQwMH0.Nh83ebqzv3RKwlmsCNvgRdEhKFUoJCCVjXJA7S-9PJM",
+    ),
+  },
   plugins: [
     react({
       plugins: [...conditionalPlugins],

@@ -113,7 +113,7 @@ export class ConnectivityTroubleshooter {
         );
       }
 
-      if (!ipCheck.httpsSupport) {
+      if (!ipCheck.httpsEnabled) {
         result.suggestions.push(
           "تأكد من تثبيت وتفعيل دعم HTTPS/SSL على الخادم",
           "تحقق من إعدادات PHP وتأكد من تمكين extension=openssl في php.ini",

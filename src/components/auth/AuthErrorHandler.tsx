@@ -30,11 +30,17 @@ const AuthErrorHandler: React.FC<AuthErrorHandlerProps> = ({
 
   const checkConnection = async () => {
     setConnectionStatus("checking");
-    const result = await checkSupabaseConnection();
-    setConnectionStatus(result.success ? "success" : "failed");
+    try {
+      const result = await checkSupabaseConnection();
+      setConnectionStatus(result.success ? "success" : "failed");
 
-    if (!result.success) {
-      setDetailedError(result.error?.message || "تعذر الاتصال بالخادم");
+      if (!result.success && result.error) {
+        setDetailedError(result.error.message || "تعذر الاتصال بالخادم");
+      }
+    } catch (err) {
+      console.error("Error checking connection:", err);
+      setConnectionStatus("failed");
+      setDetailedError("حدث خطأ أثناء التحقق من الاتصال");
     }
   };
 

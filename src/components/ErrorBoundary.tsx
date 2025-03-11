@@ -43,9 +43,9 @@ class ErrorBoundary extends Component<Props, State> {
 
     // Check if error is related to Supabase connection
     if (
-      error.message.includes("fetch") ||
-      error.message.includes("network") ||
-      error.message.includes("connection")
+      error.message?.includes("fetch") ||
+      error.message?.includes("network") ||
+      error.message?.includes("connection")
     ) {
       this.checkSupabaseConnection();
     }
@@ -57,8 +57,15 @@ class ErrorBoundary extends Component<Props, State> {
 
   checkSupabaseConnection = async () => {
     this.setState({ connectionStatus: "checking" });
-    const result = await checkSupabaseConnection();
-    this.setState({ connectionStatus: result.success ? "success" : "failed" });
+    try {
+      const result = await checkSupabaseConnection();
+      this.setState({
+        connectionStatus: result.success ? "success" : "failed",
+      });
+    } catch (err) {
+      console.error("Error checking connection:", err);
+      this.setState({ connectionStatus: "failed" });
+    }
   };
 
   handleReset = (): void => {

@@ -74,7 +74,9 @@ export class ServiceImporter {
 
       // Fetch services from the provider
       console.log(`Fetching services from provider ${provider.name}...`);
-      const services = await serviceProviderManager.fetchServices(providerId);
+      const { ServiceFetcher } = await import("./ServiceFetcher");
+      const result = await ServiceFetcher.fetchServices(providerId);
+      const services = result.success && result.services ? result.services : [];
 
       if (!services || services.length === 0) {
         console.warn(`No services found for provider ${provider.name}`);

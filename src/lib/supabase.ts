@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 
-// Use the actual values from .env file
+// Use environment variables with fallbacks
 const supabaseUrl =
   import.meta.env.VITE_SUPABASE_URL ||
   "https://qnkfvwlxqbxnwfxjqnzs.supabase.co";
