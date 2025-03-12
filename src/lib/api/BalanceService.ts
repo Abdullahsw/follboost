@@ -62,10 +62,14 @@ export class BalanceService {
         );
 
         // If response is a string that contains "balance"
-        if (typeof response === "string" && response.includes("balance")) {
+        if (
+          typeof response === "string" &&
+          response.indexOf("balance") !== -1
+        ) {
           try {
             // Try to extract JSON from the string
-            const match = response.match(/\{.*\}/s);
+            const responseStr = response as string;
+            const match = responseStr.match(/\{.*\}/s);
             if (match) {
               const jsonStr = match[0];
               const parsedData = JSON.parse(jsonStr);
