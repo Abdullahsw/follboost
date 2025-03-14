@@ -36,6 +36,10 @@ export default defineConfig({
   },
   build: {
     outDir: "dist",
+    // Disable minification for easier debugging
+    minify: process.env.NODE_ENV === "production",
+    // Ensure source maps are generated for easier debugging
+    sourcemap: true,
     rollupOptions: {
       input: {
         main: "index.html",
@@ -50,5 +54,11 @@ export default defineConfig({
   server: {
     // @ts-ignore
     allowedHosts: process.env.TEMPO === "true" ? true : undefined,
+    // Configure CORS for development
+    cors: true,
+    // Configure proxy for API requests if needed
+    proxy: {
+      // Example: '/api': 'http://localhost:3000'
+    },
   },
 });

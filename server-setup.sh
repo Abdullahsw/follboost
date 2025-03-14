@@ -1,49 +1,65 @@
 #!/bin/bash
 
-echo "Setting up server for FollBoost website..."
+echo "Setting up server environment for FollBoost..."
 
-# Update packages
-sudo apt update
-sudo apt upgrade -y
+# Update package lists
+echo "Updating package lists..."
+sudo apt-get update
 
 # Install required packages
-sudo apt install -y curl git
-
-# Install Node.js 18.x if not already installed
-if ! command -v node &> /dev/null; then
-  echo "Installing Node.js..."
-  curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-  sudo apt install -y nodejs
-  node -v
-  npm -v
-fi
+echo "Installing required packages..."
+sudo apt-get install -y apache2 curl git jq
 
 # Enable required Apache modules
+echo "Enabling Apache modules..."
 sudo a2enmod rewrite
 sudo a2enmod headers
 
-# Restart Apache to apply changes
+# Create deployment directory
+echo "Creating deployment directory..."
+sudo mkdir -p /var/www/follboost
+
+# Set ownership
+sudo chown -R $USER:$USER /var/www/follboost
+
+# Create a test file to verify Apache is working
+echo "Creating test file..."
+echo "<html><body><h1>FollBoost Test Page</h1><p>If you can see this, Apache is working correctly.</p></body></html>" | sudo tee /var/www/html/test.html > /dev/null
+
+# Create a PHP info file to verify PHP is working
+echo "Creating PHP info file..."
+echo "<?php phpinfo(); ?>" | sudo tee /var/www/html/info.php > /dev/null
+
+# Configure Apache virtual host
+echo "Configuring Apache virtual host..."
+cat > follboost.conf << 'EOF'
+<VirtualHost *:80>
+    ServerName follboost.com
+    ServerAlias www.follboost.com
+    DocumentRoot /var/www/follboost/dist
+
+    <Directory /var/www/follboost/dist>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/follboost.com_error.log
+    CustomLog ${APACHE_LOG_DIR}/follboost.com_access.log combined
+</VirtualHost>
+EOF
+
+sudo mv follboost.conf /etc/apache2/sites-available/follboost.com.conf
+
+# Enable the site
+echo "Enabling the site..."
+sudo a2ensite follboost.com.conf
+
+# Restart Apache
+echo "Restarting Apache..."
 sudo systemctl restart apache2
 
-# Check if the virtual host is enabled
-if [ ! -f /etc/apache2/sites-enabled/follboost.com.conf ]; then
-  echo "Enabling follboost.com virtual host..."
-  sudo a2ensite follboost.com.conf
-  sudo systemctl reload apache2
-fi
-
-# Check Apache configuration
-echo "Checking Apache configuration..."
-sudo apache2ctl configtest
-
-# Fix permissions for node_modules
-echo "Fixing permissions for node_modules..."
-sudo chmod -R 755 /var/www/follboost/node_modules
-sudo chmod +x /var/www/follboost/node_modules/.bin/*
-sudo chmod +x /var/www/follboost/node_modules/@esbuild/linux-x64/bin/esbuild
-
-# Create build directory if it doesn't exist
-sudo mkdir -p /var/www/follboost/dist
-sudo chown -R www-data:www-data /var/www/follboost/dist
-
-echo "Server setup completed!"
+echo "Server setup completed successfully!"
+echo "You can now deploy your application to /var/www/follboost"
+echo "To test Apache, visit http://31.187.76.192/test.html"
+echo "To check PHP, visit http://31.187.76.192/info.php"

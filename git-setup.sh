@@ -1,75 +1,57 @@
 #!/bin/bash
 
-# Script to set up Git repository in the web directory
-# Run with: sudo bash git-setup.sh your-repo-url
+echo "Setting up Git for FollBoost project..."
 
-if [ $# -eq 0 ]; then
-  echo "Error: Repository URL is required."
-  echo "Usage: sudo bash git-setup.sh https://github.com/username/repo.git"
-  exit 1
-fi
+# Set variables
+DEPLOY_DIR="/var/www/follboost"
+GIT_REPO="https://github.com/yourusername/follboost.git"
 
-REPO_URL=$1
-
-echo "Setting up Git repository from $REPO_URL..."
-
-# Navigate to the web directory
-cd /var/www/html/
-
-# Check if directory is empty
-if [ "$(ls -A /var/www/html/)" ]; then
-  echo "Warning: Directory is not empty."
-  read -p "Do you want to backup existing files? (y/n): " backup_choice
-  
-  if [ "$backup_choice" = "y" ]; then
-    timestamp=$(date +"%Y%m%d_%H%M%S")
-    backup_dir="/var/www/backup_$timestamp"
-    echo "Creating backup at $backup_dir"
-    mkdir -p $backup_dir
-    cp -r /var/www/html/* $backup_dir/
-    echo "Backup created successfully."
-  fi
-  
-  read -p "Clear the directory before cloning? (y/n): " clear_choice
-  if [ "$clear_choice" = "y" ]; then
-    echo "Clearing directory..."
-    rm -rf /var/www/html/*
-    rm -rf /var/www/html/.* 2>/dev/null || true
-  else
-    echo "Aborting. Please clear the directory manually or choose to clear it."
-    exit 1
-  fi
-fi
-
-# Install Git if not already installed
+# Check if Git is installed
 if ! command -v git &> /dev/null; then
-  echo "Git not found. Installing Git..."
-  apt-get update
-  apt-get install -y git
+  echo "Git is not installed. Installing Git..."
+  sudo apt-get update
+  sudo apt-get install -y git
 fi
 
-# Clone the repository
-echo "Cloning repository..."
-git clone $REPO_URL .
-
-# Check if clone was successful
-if [ $? -ne 0 ]; then
-  echo "Error: Failed to clone repository. Please check the URL and your internet connection."
-  exit 1
+# Create deployment directory if it doesn't exist
+if [ ! -d "$DEPLOY_DIR" ]; then
+  echo "Creating deployment directory..."
+  sudo mkdir -p "$DEPLOY_DIR"
 fi
 
-# Set proper permissions
-echo "Setting file permissions..."
-chown -R www-data:www-data /var/www/html/
-find /var/www/html/ -type d -exec chmod 755 {} \;
-find /var/www/html/ -type f -exec chmod 644 {} \;
+# Set ownership
+sudo chown -R $USER:$USER "$DEPLOY_DIR"
 
-# Make scripts executable
-find /var/www/html/ -name "*.sh" -exec chmod 755 {} \;
+# Navigate to deployment directory
+cd "$DEPLOY_DIR"
 
-# Configure Git to store credentials (optional)
-echo "Configuring Git..."
-git config --global credential.helper store
+# Initialize Git repository if it doesn't exist
+if [ ! -d ".git" ]; then
+  echo "Initializing Git repository..."
+  git init
+  
+  # Add remote repository
+  echo "Adding remote repository..."
+  git remote add origin $GIT_REPO
+  
+  # Set up Git credentials (optional)
+  echo "Setting up Git credentials..."
+  read -p "Enter your Git username: " GIT_USERNAME
+  read -p "Enter your Git email: " GIT_EMAIL
+  
+  git config user.name "$GIT_USERNAME"
+  git config user.email "$GIT_EMAIL"
+  
+  # Configure Git to store credentials
+  git config credential.helper store
+  
+  # Pull from repository
+  echo "Pulling from repository..."
+  git pull origin main
+else
+  echo "Git repository already initialized."
+  echo "Pulling latest changes..."
+  git pull origin main
+fi
 
-echo "Git repository setup completed successfully!"
-echo "You can now update the application using: sudo bash update-from-github.sh"
+echo "Git setup completed successfully!"
