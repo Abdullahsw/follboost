@@ -8,9 +8,22 @@
   RewriteRule . /index.html [L]
 </IfModule>
 
-# Enable CORS
+# Enable CORS for API requests
 <IfModule mod_headers.c>
   Header set Access-Control-Allow-Origin "*"
   Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
-  Header set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept, Authorization, x-client-info, apikey"
+  Header set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept, Authorization, apikey, x-client-info"
+  Header set Access-Control-Allow-Credentials "true"
+</IfModule>
+
+# PHP settings
+<IfModule mod_php7.c>
+  php_flag display_errors on
+  php_value error_reporting E_ALL
+  php_flag allow_url_fopen On
+</IfModule>
+
+# Increase memory limit
+<IfModule mod_php7.c>
+  php_value memory_limit 256M
 </IfModule>

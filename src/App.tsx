@@ -6,7 +6,12 @@ import AuthGuard from "./components/auth/AuthGuard";
 import AdminAuthGuard from "./components/auth/AdminAuthGuard";
 import AdminFundsManagement from "./components/admin/funds/AdminFundsManagement";
 import ErrorBoundary from "./components/ErrorBoundary";
-import { supabaseClient as supabase } from "./lib/supabase-client";
+import {
+  supabaseClient as supabase,
+  checkSupabaseConnection,
+  isInOfflineMode,
+  enableOfflineMode,
+} from "./lib/supabase-client";
 
 // Landing Pages
 const LandingPage = lazy(() => import("./components/landing/LandingPage"));
@@ -96,19 +101,28 @@ function App() {
             : "not set",
         });
 
-        const { data, error } = await supabase
-          .from("profiles")
-          .select("count")
-          .limit(1);
-        if (error) {
+        // Use the checkSupabaseConnection helper instead of direct query
+        const { success, error, data } = await checkSupabaseConnection();
+
+        if (!success) {
           console.error("Supabase connection error:", error);
+          // If we're in offline mode, don't show an error, just continue with limited functionality
+          if (isInOfflineMode()) {
+            console.log("Running in offline mode with limited functionality");
+            setIsLoading(false);
+            return;
+          }
           throw error;
         }
+
         console.log("Supabase connection successful:", data);
         setIsLoading(false);
       } catch (err) {
         console.error("Error:", err);
-        setError(err.message || "An unknown error occurred");
+        // Show a more user-friendly error message
+        setError(
+          "لا يمكن الاتصال بقاعدة البيانات. يرجى التحقق من اتصال الإنترنت الخاص بك أو تشغيل الوضع غير المتصل.",
+        );
         setIsLoading(false);
       }
     };
@@ -132,12 +146,24 @@ function App() {
       <div className="flex flex-col items-center justify-center h-screen p-4">
         <h1 className="text-2xl font-bold text-red-600 mb-4">خطأ في التطبيق</h1>
         <p className="text-gray-700 mb-4 text-center">{error}</p>
-        <button
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-          onClick={() => window.location.reload()}
-        >
-          إعادة تحميل التطبيق
-        </button>
+        <div className="flex gap-4">
+          <button
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            onClick={() => window.location.reload()}
+          >
+            إعادة تحميل التطبيق
+          </button>
+          <button
+            className="px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700"
+            onClick={() => {
+              enableOfflineMode();
+              setError(null);
+              setIsLoading(false);
+            }}
+          >
+            تشغيل الوضع غير المتصل
+          </button>
+        </div>
       </div>
     );
   }

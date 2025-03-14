@@ -15,7 +15,13 @@ import {
 import { AlertCircle } from "lucide-react";
 import AuthErrorHandler from "./AuthErrorHandler";
 import { useAuth } from "@/contexts/AuthContext";
-import { supabaseClient as supabase } from "@/lib/supabase-client";
+import {
+  supabaseClient as supabase,
+  isInOfflineMode,
+  enableOfflineMode,
+} from "@/lib/supabase-client";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import OfflineLoginForm from "./OfflineLoginForm";
 
 const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -112,63 +118,76 @@ const LoginPage = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleLogin} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="email" className="text-right block">
-                  البريد الإلكتروني
-                </Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="example@domain.com"
-                  dir="ltr"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <Link
-                    to="/forgot-password"
-                    className="text-sm text-primary hover:underline"
-                  >
-                    نسيت كلمة المرور؟
-                  </Link>
-                  <Label htmlFor="password" className="text-right block">
-                    كلمة المرور
-                  </Label>
-                </div>
-                <Input
-                  id="password"
-                  type="password"
-                  dir="ltr"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="flex items-center justify-end space-x-2 space-x-reverse">
-                <Label htmlFor="remember" className="text-sm">
-                  تذكرني
-                </Label>
-                <Checkbox
-                  id="remember"
-                  checked={rememberMe}
-                  onCheckedChange={(checked) => setRememberMe(!!checked)}
-                />
-              </div>
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? (
-                  <span className="flex items-center justify-center gap-2">
-                    <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                    جاري تسجيل الدخول...
-                  </span>
-                ) : (
-                  "تسجيل الدخول"
-                )}
-              </Button>
-            </form>
+            <Tabs defaultValue="online" dir="rtl">
+              <TabsList className="grid w-full grid-cols-2 mb-6">
+                <TabsTrigger value="online">اتصال بالإنترنت</TabsTrigger>
+                <TabsTrigger value="offline">وضع عدم الاتصال</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="online">
+                <form onSubmit={handleLogin} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="email" className="text-right block">
+                      البريد الإلكتروني
+                    </Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="example@domain.com"
+                      dir="ltr"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <Link
+                        to="/forgot-password"
+                        className="text-sm text-primary hover:underline"
+                      >
+                        نسيت كلمة المرور؟
+                      </Link>
+                      <Label htmlFor="password" className="text-right block">
+                        كلمة المرور
+                      </Label>
+                    </div>
+                    <Input
+                      id="password"
+                      type="password"
+                      dir="ltr"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="flex items-center justify-end space-x-2 space-x-reverse">
+                    <Label htmlFor="remember" className="text-sm">
+                      تذكرني
+                    </Label>
+                    <Checkbox
+                      id="remember"
+                      checked={rememberMe}
+                      onCheckedChange={(checked) => setRememberMe(!!checked)}
+                    />
+                  </div>
+                  <Button type="submit" className="w-full" disabled={isLoading}>
+                    {isLoading ? (
+                      <span className="flex items-center justify-center gap-2">
+                        <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                        جاري تسجيل الدخول...
+                      </span>
+                    ) : (
+                      "تسجيل الدخول"
+                    )}
+                  </Button>
+                </form>
+              </TabsContent>
+
+              <TabsContent value="offline">
+                <OfflineLoginForm />
+              </TabsContent>
+            </Tabs>
           </CardContent>
           <CardFooter className="flex justify-center">
             <div className="text-center text-sm">
