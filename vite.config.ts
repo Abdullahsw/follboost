@@ -34,11 +34,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  css: {
-    postcss: {
-      plugins: [require("tailwindcss"), require("autoprefixer")],
-    },
-  },
+  // PostCSS configuration is handled by postcss.config.js
   build: {
     outDir: "dist",
     // Disable minification for easier debugging
