@@ -13,6 +13,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export default defineConfig({
+  base: "/", // Ensure base URL is set correctly
   define: {
     "import.meta.env.VITE_SUPABASE_URL": JSON.stringify(
       process.env.VITE_SUPABASE_URL ||
@@ -37,20 +38,35 @@ export default defineConfig({
   // PostCSS configuration is handled by postcss.config.js
   build: {
     outDir: "dist",
-    // Disable minification for easier debugging
-    minify: process.env.NODE_ENV === "production",
-    // Ensure source maps are generated for easier debugging
-    sourcemap: true,
+    // Enable minification for production
+    minify: true,
+    // Disable source maps in production for better performance
+    sourcemap: process.env.NODE_ENV !== "production",
+    // Ensure assets are properly handled
+    assetsInlineLimit: 4096,
     rollupOptions: {
       input: {
         main: "index.html",
       },
       output: {
-        entryFileNames: "assets/[name]-[hash].js",
-        chunkFileNames: "assets/[name]-[hash].js",
-        assetFileNames: "assets/[name]-[hash].[ext]",
+        entryFileNames: "assets/[name].[hash].js",
+        chunkFileNames: "assets/[name].[hash].js",
+        assetFileNames: "assets/[name].[hash].[ext]",
+        // Ensure chunks are properly handled
+        manualChunks: (id) => {
+          if (id.includes("node_modules")) {
+            return "vendor";
+          }
+        },
       },
     },
+  },
+  // Ensure assets are properly handled
+  publicDir: "public",
+  assetsInclude: ["**/*.svg", "**/*.png", "**/*.jpg", "**/*.jpeg", "**/*.gif"],
+  // Optimize dependencies
+  optimizeDeps: {
+    include: ["react", "react-dom", "react-router-dom"],
   },
   server: {
     // @ts-ignore
