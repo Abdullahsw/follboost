@@ -130,7 +130,7 @@ const AddServiceProviderForm: React.FC<AddServiceProviderFormProps> = ({
             "تأكد من صحة مفتاح API المستخدم وأنه لا يزال نشطًا في لوحة تحكم مزود الخدمة.",
         });
       } else if (
-        !troubleshootResult.details.curlEnabled ||
+        !troubleshootResult.details.curlSupport ||
         !troubleshootResult.details.httpsSupport
       ) {
         // Server configuration issue
@@ -353,8 +353,10 @@ const AddServiceProviderForm: React.FC<AddServiceProviderFormProps> = ({
               <Button
                 type="submit"
                 disabled={
-                  isLoading ||
-                  (!testResult?.success && formData.url && formData.apiKey)
+                  !!(
+                    isLoading ||
+                    (!testResult?.success && formData.url && formData.apiKey)
+                  )
                 }
               >
                 {isLoading ? "جاري الإضافة..." : "إضافة مزود الخدمة"}

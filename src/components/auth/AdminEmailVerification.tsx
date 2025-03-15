@@ -29,7 +29,7 @@ const AdminEmailVerification = () => {
 
       if (userError) throw userError;
 
-      const user = userData.users.find((u) => u.email === email);
+      const user = userData.users.find((u: any) => u.email === email);
 
       if (!user) {
         setMessage(`User with email ${email} not found`);

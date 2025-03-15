@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/select";
 import { serviceProviderManager } from "@/lib/api/ServiceProviderManager";
 import { OrderService, OrderData } from "@/lib/api/OrderService";
+import { ServiceProviderManager } from "@/lib/api/ServiceProviderManager";
 
 interface CreateOrderFormProps {
   onOrderCreated?: (orderId: string | number) => void;
@@ -80,7 +81,7 @@ const CreateOrderForm: React.FC<CreateOrderFormProps> = ({
 
     try {
       const servicesList =
-        await serviceProviderManager.fetchServices(providerId);
+        await ServiceProviderManager.fetchServices(providerId);
       setServices(servicesList);
     } catch (error) {
       console.error("Error loading services:", error);

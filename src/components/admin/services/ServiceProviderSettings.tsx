@@ -36,6 +36,7 @@ import { Separator } from "@/components/ui/separator";
 import {
   serviceProviderManager,
   ServiceProvider,
+  ServiceProviderManager,
 } from "@/lib/api/ServiceProviderManager";
 import AddServiceProviderForm from "./AddServiceProviderForm";
 
@@ -613,12 +614,18 @@ const ServiceProviderSettings: React.FC<ServiceProviderSettingsProps> = ({
                                       حذف مزود الخدمة
                                     </DialogTitle>
                                     <DialogDescription className="text-right">
-                                      هل أنت متأكد من رغبتك في حذف مزود الخدمة{" "}
-                                      {provider.name}؟ هذا الإجراء لا يمكن
-                                      التراجع عنه.
+                                      هل أنت متأكد من حذف مزود الخدمة{" "}
+                                      {provider.name}؟
                                     </DialogDescription>
                                   </DialogHeader>
-                                  <DialogFooter className="mt-4">
+                                  <div className="py-4">
+                                    <p className="text-red-600 text-right">
+                                      سيتم حذف جميع البيانات المرتبطة بمزود
+                                      الخدمة هذا. هذا الإجراء لا يمكن التراجع
+                                      عنه.
+                                    </p>
+                                  </div>
+                                  <DialogFooter>
                                     <Button
                                       variant="outline"
                                       onClick={() =>
@@ -634,70 +641,22 @@ const ServiceProviderSettings: React.FC<ServiceProviderSettingsProps> = ({
                                     >
                                       {isSubmitting
                                         ? "جاري الحذف..."
-                                        : "حذف مزود الخدمة"}
+                                        : "تأكيد الحذف"}
                                     </Button>
                                   </DialogFooter>
                                 </DialogContent>
                               </Dialog>
-
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                className="h-8 w-8 p-0 text-blue-600"
-                                onClick={async () => {
-                                  try {
-                                    // Fetch services from this provider
-                                    setIsSubmitting(true);
-                                    setError("");
-
-                                    console.log(
-                                      `Syncing services from ${provider.name}...`,
-                                    );
-
-                                    // In a real app, this would fetch services from the provider
-                                    const services =
-                                      await serviceProviderManager.fetchServices(
-                                        provider.id,
-                                      );
-
-                                    // Show success message
-                                    setSuccess(true);
-                                    alert(
-                                      `تم مزامنة ${services.length} خدمة من ${provider.name} بنجاح`,
-                                    );
-
-                                    setTimeout(() => setSuccess(false), 3000);
-                                  } catch (error) {
-                                    console.error(
-                                      `Error syncing services from ${provider.name}:`,
-                                      error,
-                                    );
-                                    setError(
-                                      `فشل مزامنة الخدمات: ${error.message || "خطأ غير معروف"}`,
-                                    );
-                                    alert(
-                                      `فشل مزامنة الخدمات من ${provider.name}: ${error.message || "خطأ غير معروف"}`,
-                                    );
-                                  } finally {
-                                    setIsSubmitting(false);
-                                  }
-                                }}
-                                disabled={isSubmitting}
-                              >
-                                {isSubmitting ? (
-                                  <RefreshCw className="h-4 w-4 animate-spin" />
-                                ) : (
-                                  <RefreshCw className="h-4 w-4" />
-                                )}
-                              </Button>
                             </div>
                           </TableCell>
                         </TableRow>
                       ))
                     ) : (
                       <TableRow>
-                        <TableCell colSpan={5} className="text-center py-8">
-                          لا يوجد مزودي خدمات حالياً. قم بإضافة مزود خدمة جديد.
+                        <TableCell
+                          colSpan={6}
+                          className="text-center py-8 text-gray-500"
+                        >
+                          لا توجد مزودي خدمة حتى الآن. قم بإضافة مزود خدمة جديد.
                         </TableCell>
                       </TableRow>
                     )}
@@ -706,14 +665,6 @@ const ServiceProviderSettings: React.FC<ServiceProviderSettingsProps> = ({
               </div>
             </CardContent>
           </Card>
-
-          <div className="bg-blue-50 p-4 rounded-md">
-            <p className="text-sm text-blue-700 text-right">
-              <strong>ملاحظة:</strong> يمكنك إضافة مزودي خدمات API متعددين
-              لاستيراد الخدمات منهم. تأكد من صحة بيانات API لضمان عمل النظام
-              بشكل صحيح.
-            </p>
-          </div>
         </TabsContent>
       </Tabs>
     </div>

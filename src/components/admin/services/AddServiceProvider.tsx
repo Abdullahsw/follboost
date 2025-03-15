@@ -41,6 +41,10 @@ const AddServiceProvider: React.FC<AddServiceProviderProps> = ({
     }));
   };
 
+  const isFormValid = () => {
+    return formData.name && formData.url && formData.apiKey;
+  };
+
   const handleTestConnection = async () => {
     if (!formData.url || !formData.apiKey) {
       setError("يرجى إدخال عنوان API ومفتاح API على الأقل");
@@ -300,8 +304,10 @@ const AddServiceProvider: React.FC<AddServiceProviderProps> = ({
             <Button
               type="submit"
               disabled={
-                isLoading ||
-                (!testResult?.success && formData.url && formData.apiKey)
+                !!(
+                  isLoading ||
+                  (!testResult?.success && formData.url && formData.apiKey)
+                )
               }
               className="flex items-center gap-2"
             >

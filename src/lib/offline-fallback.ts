@@ -76,6 +76,11 @@ const initializeDemoData = () => {
       id: "offline-user-1",
       email: "demo@follboost.com",
       user_metadata: { full_name: "مستخدم تجريبي" },
+      app_metadata: {},
+      aud: "authenticated",
+      created_at: new Date().toISOString(),
+      role: "authenticated",
+      updated_at: new Date().toISOString(),
     } as User;
 
     // Create demo profile

@@ -103,7 +103,7 @@ const AdminHeader = ({
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56" dir="rtl">
+              <DropdownMenuContent align="end" className="w-56 text-right">
                 <DropdownMenuLabel className="text-right">
                   {userName}
                 </DropdownMenuLabel>
