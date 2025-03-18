@@ -17,9 +17,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { OrderStatus } from "@/types/Order";
 
-interface OrderStatus {
-  value: "pending" | "in-progress" | "completed" | "cancelled" | "refunded";
+interface OrderStatusDisplay {
+  value: OrderStatus;
   label: string;
   color: string;
 }
@@ -32,10 +33,10 @@ interface Order {
   quantity: number;
   amount: number;
   date: string;
-  status: OrderStatus;
+  status: OrderStatusDisplay;
 }
 
-const getStatusBadge = (status: OrderStatus) => {
+const getStatusBadge = (status: OrderStatusDisplay) => {
   return <Badge className={status.color}>{status.label}</Badge>;
 };
 
@@ -43,71 +44,71 @@ const AdminOrdersTable = () => {
   const orders = [
     {
       id: "ORD-001",
-      user: "أحمد محمد",
-      service: "متابعين انستغرام",
+      user: "Ahmed Mohammed",
+      service: "Instagram Followers",
       platform: "Instagram",
       quantity: 1000,
       amount: 50,
       date: "2023-06-15",
       status: {
-        value: "in-progress",
-        label: "قيد التنفيذ",
+        value: "in-progress" as OrderStatus,
+        label: "In Progress",
         color: "bg-amber-100 text-amber-800 hover:bg-amber-100",
       },
     },
     {
       id: "ORD-002",
-      user: "سارة علي",
-      service: "إعجابات تويتر",
+      user: "Sarah Ali",
+      service: "Twitter Likes",
       platform: "Twitter",
       quantity: 500,
       amount: 25,
       date: "2023-06-14",
       status: {
-        value: "completed",
-        label: "مكتمل",
+        value: "completed" as OrderStatus,
+        label: "Completed",
         color: "bg-green-100 text-green-800 hover:bg-green-100",
       },
     },
     {
       id: "ORD-003",
-      user: "محمد خالد",
-      service: "مشاهدات يوتيوب",
+      user: "Mohammed Khalid",
+      service: "YouTube Views",
       platform: "YouTube",
       quantity: 5000,
       amount: 120,
       date: "2023-06-16",
       status: {
-        value: "in-progress",
-        label: "قيد التنفيذ",
+        value: "in-progress" as OrderStatus,
+        label: "In Progress",
         color: "bg-amber-100 text-amber-800 hover:bg-amber-100",
       },
     },
     {
       id: "ORD-004",
-      user: "فاطمة أحمد",
-      service: "متابعين تيك توك",
+      user: "Fatima Ahmed",
+      service: "TikTok Followers",
       platform: "TikTok",
       quantity: 2000,
       amount: 80,
       date: "2023-06-17",
       status: {
-        value: "pending",
-        label: "قيد الانتظار",
+        value: "pending" as OrderStatus,
+        label: "Pending",
         color: "bg-blue-100 text-blue-800 hover:bg-blue-100",
       },
     },
     {
       id: "ORD-005",
-      user: "عمر حسن",
-      service: "إعجابات فيسبوك",
+      user: "Omar Hassan",
+      service: "Facebook Likes",
       platform: "Facebook",
       quantity: 300,
       amount: 15,
       date: "2023-06-16",
       status: {
-        value: "cancelled",
-        label: "ملغي",
+        value: "cancelled" as OrderStatus,
+        label: "Cancelled",
         color: "bg-red-100 text-red-800 hover:bg-red-100",
       },
     },
@@ -116,24 +117,22 @@ const AdminOrdersTable = () => {
   return (
     <Card className="w-full bg-white shadow-sm">
       <CardHeader className="pb-2">
-        <CardTitle className="text-xl font-bold text-right">
-          أحدث الطلبات
-        </CardTitle>
+        <CardTitle className="text-xl font-bold">Latest Orders</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="overflow-x-auto">
-          <Table dir="rtl">
+          <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="text-right">رقم الطلب</TableHead>
-                <TableHead className="text-right">المستخدم</TableHead>
-                <TableHead className="text-right">الخدمة</TableHead>
-                <TableHead className="text-right">المنصة</TableHead>
-                <TableHead className="text-right">الكمية</TableHead>
-                <TableHead className="text-right">المبلغ</TableHead>
-                <TableHead className="text-right">التاريخ</TableHead>
-                <TableHead className="text-right">الحالة</TableHead>
-                <TableHead className="text-right">الإجراءات</TableHead>
+                <TableHead>Order ID</TableHead>
+                <TableHead>User</TableHead>
+                <TableHead>Service</TableHead>
+                <TableHead>Platform</TableHead>
+                <TableHead>Quantity</TableHead>
+                <TableHead>Amount</TableHead>
+                <TableHead>Date</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -144,7 +143,7 @@ const AdminOrdersTable = () => {
                   <TableCell>{order.service}</TableCell>
                   <TableCell>{order.platform}</TableCell>
                   <TableCell>{order.quantity.toLocaleString()}</TableCell>
-                  <TableCell>{order.amount} ر.س</TableCell>
+                  <TableCell>${order.amount}</TableCell>
                   <TableCell>{order.date}</TableCell>
                   <TableCell>{getStatusBadge(order.status)}</TableCell>
                   <TableCell>
@@ -161,7 +160,7 @@ const AdminOrdersTable = () => {
                             </Button>
                           </TooltipTrigger>
                           <TooltipContent>
-                            <p>عرض التفاصيل</p>
+                            <p>View Details</p>
                           </TooltipContent>
                         </Tooltip>
                       </TooltipProvider>
@@ -178,7 +177,7 @@ const AdminOrdersTable = () => {
                             </Button>
                           </TooltipTrigger>
                           <TooltipContent>
-                            <p>تأكيد الطلب</p>
+                            <p>Confirm Order</p>
                           </TooltipContent>
                         </Tooltip>
                       </TooltipProvider>
@@ -195,7 +194,7 @@ const AdminOrdersTable = () => {
                             </Button>
                           </TooltipTrigger>
                           <TooltipContent>
-                            <p>إلغاء الطلب</p>
+                            <p>Cancel Order</p>
                           </TooltipContent>
                         </Tooltip>
                       </TooltipProvider>
@@ -212,7 +211,7 @@ const AdminOrdersTable = () => {
                             </Button>
                           </TooltipTrigger>
                           <TooltipContent>
-                            <p>خيارات إضافية</p>
+                            <p>More Options</p>
                           </TooltipContent>
                         </Tooltip>
                       </TooltipProvider>

@@ -33,10 +33,10 @@ export interface OrderStatusOption {
 }
 
 export const ORDER_STATUS_OPTIONS: OrderStatusOption[] = [
-  { value: "completed", label: "مكتمل", color: "green" },
-  { value: "pending", label: "قيد الانتظار", color: "yellow" },
-  { value: "in-progress", label: "قيد التنفيذ", color: "blue" },
-  { value: "partial", label: "مكتمل جزئياً", color: "orange" },
-  { value: "cancelled", label: "ملغي", color: "red" },
-  { value: "refunded", label: "مسترجع", color: "purple" },
+  { value: "completed", label: "Completed", color: "green" },
+  { value: "pending", label: "Pending", color: "yellow" },
+  { value: "in-progress", label: "In Progress", color: "blue" },
+  { value: "partial", label: "Partially Completed", color: "orange" },
+  { value: "cancelled", label: "Cancelled", color: "red" },
+  { value: "refunded", label: "Refunded", color: "purple" },
 ];

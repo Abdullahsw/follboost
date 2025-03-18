@@ -87,7 +87,7 @@
     "postcss": "^8.4.38",
     "prettier": "^3.5.3",
     "tailwindcss": "3.4.1",
-    "tempo-devtools": "^2.0.94",
+    "tempo-devtools": "^2.0.95",
     "ts-jest": "^29.2.6",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"

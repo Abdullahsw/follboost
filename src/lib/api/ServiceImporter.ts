@@ -29,24 +29,24 @@ export interface MappedService {
 export class ServiceImporter {
   // Category mapping from API to local system
   private categoryMapping: Record<string, string> = {
-    Followers: "متابعين",
-    Likes: "إعجابات",
-    Views: "مشاهدات",
-    Comments: "تعليقات",
-    Shares: "مشاركات",
-    Subscribers: "مشتركين",
+    Followers: "Followers",
+    Likes: "Likes",
+    Views: "Views",
+    Comments: "Comments",
+    Shares: "Shares",
+    Subscribers: "Subscribers",
   };
 
   // Platform mapping from API to local system
   private platformMapping: Record<string, string> = {
-    Instagram: "انستغرام",
-    Facebook: "فيسبوك",
-    Twitter: "تويتر",
-    YouTube: "يوتيوب",
-    TikTok: "تيك توك",
-    Telegram: "تيليجرام",
-    Snapchat: "سناب شات",
-    LinkedIn: "لينكد إن",
+    Instagram: "Instagram",
+    Facebook: "Facebook",
+    Twitter: "Twitter",
+    YouTube: "YouTube",
+    TikTok: "TikTok",
+    Telegram: "Telegram",
+    Snapchat: "Snapchat",
+    LinkedIn: "LinkedIn",
   };
 
   /**
@@ -133,7 +133,7 @@ export class ServiceImporter {
       provider: provider.name,
       providerId: provider.id,
       providerServiceId: service.providerServiceId,
-      status: "نشط",
+      status: "Active",
       profitPercentage,
     };
   }

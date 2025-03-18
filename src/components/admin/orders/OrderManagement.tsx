@@ -32,15 +32,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
+import { OrderStatus } from "@/types/Order";
 
-interface OrderStatus {
-  value:
-    | "pending"
-    | "in-progress"
-    | "completed"
-    | "cancelled"
-    | "partial"
-    | "refunded";
+interface OrderStatusDisplay {
+  value: OrderStatus;
   label: string;
   color: string;
 }
@@ -56,7 +51,7 @@ interface Order {
   link: string;
   amount: number;
   date: string;
-  status: OrderStatus;
+  status: OrderStatusDisplay;
   progress: number;
   apiOrderId?: string;
   apiProvider?: string;
@@ -79,8 +74,8 @@ const OrderManagement = () => {
     {
       id: "ORD-001",
       userId: "USR-001",
-      userName: "أحمد محمد",
-      service: "متابعين انستغرام عرب",
+      userName: "Ahmed Mohammed",
+      service: "Instagram Arab Followers",
       serviceId: "SRV-001",
       platform: "Instagram",
       quantity: 1000,
@@ -89,7 +84,7 @@ const OrderManagement = () => {
       date: "2023-06-15",
       status: {
         value: "in-progress",
-        label: "قيد التنفيذ",
+        label: "In Progress",
         color: "bg-amber-100 text-amber-800 hover:bg-amber-100",
       },
       progress: 65,
@@ -100,8 +95,8 @@ const OrderManagement = () => {
     {
       id: "ORD-002",
       userId: "USR-002",
-      userName: "سارة علي",
-      service: "إعجابات تويتر",
+      userName: "Sarah Ali",
+      service: "Twitter Likes",
       serviceId: "SRV-005",
       platform: "Twitter",
       quantity: 500,
@@ -110,7 +105,7 @@ const OrderManagement = () => {
       date: "2023-06-14",
       status: {
         value: "completed",
-        label: "مكتمل",
+        label: "Completed",
         color: "bg-green-100 text-green-800 hover:bg-green-100",
       },
       progress: 100,
@@ -121,8 +116,8 @@ const OrderManagement = () => {
     {
       id: "ORD-003",
       userId: "USR-003",
-      userName: "محمد خالد",
-      service: "مشاهدات يوتيوب",
+      userName: "Mohammed Khalid",
+      service: "YouTube Views",
       serviceId: "SRV-004",
       platform: "YouTube",
       quantity: 5000,
@@ -131,7 +126,7 @@ const OrderManagement = () => {
       date: "2023-06-16",
       status: {
         value: "in-progress",
-        label: "قيد التنفيذ",
+        label: "In Progress",
         color: "bg-amber-100 text-amber-800 hover:bg-amber-100",
       },
       progress: 30,
@@ -142,8 +137,8 @@ const OrderManagement = () => {
     {
       id: "ORD-004",
       userId: "USR-004",
-      userName: "فاطمة أحمد",
-      service: "متابعين تيك توك",
+      userName: "Fatima Ahmed",
+      service: "TikTok Followers",
       serviceId: "SRV-009",
       platform: "TikTok",
       quantity: 2000,
@@ -152,7 +147,7 @@ const OrderManagement = () => {
       date: "2023-06-17",
       status: {
         value: "pending",
-        label: "قيد الانتظار",
+        label: "Pending",
         color: "bg-blue-100 text-blue-800 hover:bg-blue-100",
       },
       progress: 0,
@@ -160,8 +155,8 @@ const OrderManagement = () => {
     {
       id: "ORD-005",
       userId: "USR-005",
-      userName: "عمر حسن",
-      service: "إعجابات فيسبوك",
+      userName: "Omar Hassan",
+      service: "Facebook Likes",
       serviceId: "SRV-006",
       platform: "Facebook",
       quantity: 300,
@@ -170,7 +165,7 @@ const OrderManagement = () => {
       date: "2023-06-16",
       status: {
         value: "partial",
-        label: "مكتمل جزئياً",
+        label: "Partially Completed",
         color: "bg-purple-100 text-purple-800 hover:bg-purple-100",
       },
       progress: 80,
@@ -181,8 +176,8 @@ const OrderManagement = () => {
     {
       id: "ORD-006",
       userId: "USR-001",
-      userName: "أحمد محمد",
-      service: "تعليقات انستغرام",
+      userName: "Ahmed Mohammed",
+      service: "Instagram Comments",
       serviceId: "SRV-003",
       platform: "Instagram",
       quantity: 100,
@@ -191,7 +186,7 @@ const OrderManagement = () => {
       date: "2023-06-13",
       status: {
         value: "cancelled",
-        label: "ملغي",
+        label: "Cancelled",
         color: "bg-red-100 text-red-800 hover:bg-red-100",
       },
       progress: 0,
@@ -221,7 +216,7 @@ const OrderManagement = () => {
             ...order,
             status: {
               value: "completed",
-              label: "مكتمل",
+              label: "Completed",
               color: "bg-green-100 text-green-800 hover:bg-green-100",
             },
             progress: 100,
@@ -257,7 +252,7 @@ const OrderManagement = () => {
             ...order,
             status: {
               value: "cancelled",
-              label: "ملغي",
+              label: "Cancelled",
               color: "bg-red-100 text-red-800 hover:bg-red-100",
             },
             progress: 0,
@@ -294,16 +289,16 @@ const OrderManagement = () => {
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold text-gray-800 text-right mb-6">
-        إدارة الطلبات
+      <h1 className="text-2xl font-bold text-gray-800 mb-6">
+        Order Management
       </h1>
 
       {success && (
         <Alert className="bg-green-50 border-green-200 text-green-800">
           <CheckCircle className="h-4 w-4" />
-          <AlertTitle className="text-right">تمت العملية بنجاح!</AlertTitle>
-          <AlertDescription className="text-right">
-            تم تحديث حالة الطلب بنجاح.
+          <AlertTitle>Operation Successful!</AlertTitle>
+          <AlertDescription>
+            Order status has been updated successfully.
           </AlertDescription>
         </Alert>
       )}
@@ -311,8 +306,8 @@ const OrderManagement = () => {
       {error && (
         <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />
-          <AlertTitle className="text-right">خطأ</AlertTitle>
-          <AlertDescription className="text-right">{error}</AlertDescription>
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
 
@@ -321,9 +316,8 @@ const OrderManagement = () => {
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             <Input
-              placeholder="ابحث عن طلب برقم الطلب أو اسم المستخدم أو الخدمة..."
-              className="pl-10 pr-4 w-full text-right"
-              dir="rtl"
+              placeholder="Search by order ID, username, or service..."
+              className="pl-10 pr-4 w-full"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -335,19 +329,19 @@ const OrderManagement = () => {
             onClick={() => console.log("Refresh orders")}
           >
             <RefreshCw className="h-4 w-4 mr-2" />
-            تحديث الطلبات
+            Refresh Orders
           </Button>
         </div>
       </div>
 
-      <Tabs defaultValue="all" dir="rtl" className="w-full">
+      <Tabs defaultValue="all" className="w-full">
         <TabsList className="grid w-full grid-cols-6 mb-6">
-          <TabsTrigger value="all">الكل</TabsTrigger>
-          <TabsTrigger value="pending">قيد الانتظار</TabsTrigger>
-          <TabsTrigger value="in-progress">قيد التنفيذ</TabsTrigger>
-          <TabsTrigger value="completed">مكتمل</TabsTrigger>
-          <TabsTrigger value="partial">مكتمل جزئياً</TabsTrigger>
-          <TabsTrigger value="cancelled">ملغي</TabsTrigger>
+          <TabsTrigger value="all">All</TabsTrigger>
+          <TabsTrigger value="pending">Pending</TabsTrigger>
+          <TabsTrigger value="in-progress">In Progress</TabsTrigger>
+          <TabsTrigger value="completed">Completed</TabsTrigger>
+          <TabsTrigger value="partial">Partial</TabsTrigger>
+          <TabsTrigger value="cancelled">Cancelled</TabsTrigger>
         </TabsList>
 
         <TabsContent value="all">
@@ -405,81 +399,61 @@ const OrderManagement = () => {
         open={isViewOrderDialogOpen}
         onOpenChange={setIsViewOrderDialogOpen}
       >
-        <DialogContent className="max-w-3xl" dir="rtl">
+        <DialogContent className="max-w-3xl">
           {selectedOrder && (
             <>
               <DialogHeader>
-                <DialogTitle className="text-right">تفاصيل الطلب</DialogTitle>
-                <DialogDescription className="text-right">
+                <DialogTitle>Order Details</DialogTitle>
+                <DialogDescription>
                   {selectedOrder.id} - {selectedOrder.service}
                 </DialogDescription>
               </DialogHeader>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label className="text-right block font-semibold">
-                    رقم الطلب
-                  </Label>
+                  <Label className="block font-semibold">Order ID</Label>
                   <p>{selectedOrder.id}</p>
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-right block font-semibold">
-                    المستخدم
-                  </Label>
+                  <Label className="block font-semibold">User</Label>
                   <p>
                     {selectedOrder.userName} ({selectedOrder.userId})
                   </p>
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-right block font-semibold">
-                    الخدمة
-                  </Label>
+                  <Label className="block font-semibold">Service</Label>
                   <p>
                     {selectedOrder.service} ({selectedOrder.serviceId})
                   </p>
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-right block font-semibold">
-                    المنصة
-                  </Label>
+                  <Label className="block font-semibold">Platform</Label>
                   <p>{selectedOrder.platform}</p>
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-right block font-semibold">
-                    الكمية
-                  </Label>
+                  <Label className="block font-semibold">Quantity</Label>
                   <p>{selectedOrder.quantity.toLocaleString()}</p>
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-right block font-semibold">
-                    المبلغ
-                  </Label>
-                  <p>{selectedOrder.amount} ر.س</p>
+                  <Label className="block font-semibold">Amount</Label>
+                  <p>${selectedOrder.amount}</p>
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-right block font-semibold">
-                    تاريخ الطلب
-                  </Label>
+                  <Label className="block font-semibold">Order Date</Label>
                   <p>{selectedOrder.date}</p>
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-right block font-semibold">
-                    آخر تحديث
-                  </Label>
+                  <Label className="block font-semibold">Last Update</Label>
                   <p>{selectedOrder.lastUpdate || "-"}</p>
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-right block font-semibold">
-                    الحالة
-                  </Label>
+                  <Label className="block font-semibold">Status</Label>
                   <Badge className={selectedOrder.status.color}>
                     {selectedOrder.status.label}
                   </Badge>
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-right block font-semibold">
-                    التقدم
-                  </Label>
+                  <Label className="block font-semibold">Progress</Label>
                   <div className="w-full bg-gray-200 rounded-full h-2.5">
                     <div
                       className="bg-primary h-2.5 rounded-full"
@@ -493,17 +467,15 @@ const OrderManagement = () => {
               </div>
 
               <div className="space-y-2 col-span-2">
-                <Label className="text-right block font-semibold">الرابط</Label>
+                <Label className="block font-semibold">Link</Label>
                 <p className="break-all">{selectedOrder.link}</p>
               </div>
 
               {selectedOrder.apiOrderId && (
                 <div className="space-y-2 col-span-2">
-                  <Label className="text-right block font-semibold">
-                    معلومات API
-                  </Label>
-                  <p>رقم الطلب في API: {selectedOrder.apiOrderId}</p>
-                  <p>مزود الخدمة: {selectedOrder.apiProvider}</p>
+                  <Label className="block font-semibold">API Information</Label>
+                  <p>API Order ID: {selectedOrder.apiOrderId}</p>
+                  <p>Service Provider: {selectedOrder.apiProvider}</p>
                 </div>
               )}
 
@@ -520,7 +492,7 @@ const OrderManagement = () => {
                           }}
                         >
                           <XCircle className="h-4 w-4 mr-2" />
-                          إلغاء الطلب
+                          Cancel Order
                         </Button>
                         <Button
                           onClick={() => {
@@ -529,7 +501,7 @@ const OrderManagement = () => {
                           }}
                         >
                           <CheckCheck className="h-4 w-4 mr-2" />
-                          تعيين كمكتمل
+                          Mark as Completed
                         </Button>
                       </>
                     )}
@@ -538,7 +510,7 @@ const OrderManagement = () => {
                   variant="outline"
                   onClick={() => setIsViewOrderDialogOpen(false)}
                 >
-                  إغلاق
+                  Close
                 </Button>
               </DialogFooter>
             </>
@@ -551,11 +523,11 @@ const OrderManagement = () => {
         open={isCompleteOrderDialogOpen}
         onOpenChange={setIsCompleteOrderDialogOpen}
       >
-        <DialogContent className="max-w-md" dir="rtl">
+        <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-right">تأكيد إكمال الطلب</DialogTitle>
-            <DialogDescription className="text-right">
-              هل أنت متأكد من رغبتك في تعيين هذا الطلب كمكتمل؟
+            <DialogTitle>Confirm Order Completion</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to mark this order as completed?
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="mt-4">
@@ -563,10 +535,10 @@ const OrderManagement = () => {
               variant="outline"
               onClick={() => setIsCompleteOrderDialogOpen(false)}
             >
-              إلغاء
+              Cancel
             </Button>
             <Button onClick={handleCompleteOrder} disabled={isSubmitting}>
-              {isSubmitting ? "جاري التنفيذ..." : "تأكيد الإكمال"}
+              {isSubmitting ? "Processing..." : "Confirm Completion"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -577,12 +549,12 @@ const OrderManagement = () => {
         open={isCancelOrderDialogOpen}
         onOpenChange={setIsCancelOrderDialogOpen}
       >
-        <DialogContent className="max-w-md" dir="rtl">
+        <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-right">تأكيد إلغاء الطلب</DialogTitle>
-            <DialogDescription className="text-right">
-              هل أنت متأكد من رغبتك في إلغاء هذا الطلب؟ هذا الإجراء لا يمكن
-              التراجع عنه.
+            <DialogTitle>Confirm Order Cancellation</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to cancel this order? This action cannot be
+              undone.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="mt-4">
@@ -590,14 +562,14 @@ const OrderManagement = () => {
               variant="outline"
               onClick={() => setIsCancelOrderDialogOpen(false)}
             >
-              إلغاء
+              Cancel
             </Button>
             <Button
               variant="destructive"
               onClick={handleCancelOrder}
               disabled={isSubmitting}
             >
-              {isSubmitting ? "جاري التنفيذ..." : "تأكيد الإلغاء"}
+              {isSubmitting ? "Processing..." : "Confirm Cancellation"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -605,20 +577,18 @@ const OrderManagement = () => {
 
       <Card className="w-full bg-white shadow-sm">
         <CardHeader>
-          <CardTitle className="text-xl font-bold text-right">
-            إحصائيات الطلبات
-          </CardTitle>
+          <CardTitle className="text-xl font-bold">Order Statistics</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div className="border rounded-lg p-4 text-center">
-              <h3 className="font-semibold mb-1">إجمالي الطلبات</h3>
+              <h3 className="font-semibold mb-1">Total Orders</h3>
               <p className="text-3xl font-bold text-blue-600">
                 {orders.length}
               </p>
             </div>
             <div className="border rounded-lg p-4 text-center">
-              <h3 className="font-semibold mb-1">الطلبات المكتملة</h3>
+              <h3 className="font-semibold mb-1">Completed Orders</h3>
               <p className="text-3xl font-bold text-green-600">
                 {
                   orders.filter((order) => order.status.value === "completed")
@@ -627,7 +597,7 @@ const OrderManagement = () => {
               </p>
             </div>
             <div className="border rounded-lg p-4 text-center">
-              <h3 className="font-semibold mb-1">الطلبات قيد التنفيذ</h3>
+              <h3 className="font-semibold mb-1">In Progress Orders</h3>
               <p className="text-3xl font-bold text-amber-600">
                 {
                   orders.filter(
@@ -639,9 +609,9 @@ const OrderManagement = () => {
               </p>
             </div>
             <div className="border rounded-lg p-4 text-center">
-              <h3 className="font-semibold mb-1">إجمالي المبيعات</h3>
+              <h3 className="font-semibold mb-1">Total Sales</h3>
               <p className="text-3xl font-bold text-purple-600">
-                {orders.reduce((total, order) => total + order.amount, 0)} ر.س
+                ${orders.reduce((total, order) => total + order.amount, 0)}
               </p>
             </div>
           </div>
@@ -661,19 +631,19 @@ const OrdersTable = ({ orders, onViewOrder }: OrdersTableProps) => {
     <Card className="w-full bg-white shadow-sm">
       <CardContent className="p-0">
         <div className="overflow-x-auto">
-          <Table dir="rtl">
+          <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="text-right">رقم الطلب</TableHead>
-                <TableHead className="text-right">المستخدم</TableHead>
-                <TableHead className="text-right">الخدمة</TableHead>
-                <TableHead className="text-right">المنصة</TableHead>
-                <TableHead className="text-right">الكمية</TableHead>
-                <TableHead className="text-right">المبلغ</TableHead>
-                <TableHead className="text-right">التقدم</TableHead>
-                <TableHead className="text-right">الحالة</TableHead>
-                <TableHead className="text-right">التاريخ</TableHead>
-                <TableHead className="text-right">الإجراءات</TableHead>
+                <TableHead>Order ID</TableHead>
+                <TableHead>User</TableHead>
+                <TableHead>Service</TableHead>
+                <TableHead>Platform</TableHead>
+                <TableHead>Quantity</TableHead>
+                <TableHead>Amount</TableHead>
+                <TableHead>Progress</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Date</TableHead>
+                <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -685,7 +655,7 @@ const OrdersTable = ({ orders, onViewOrder }: OrdersTableProps) => {
                     <TableCell>{order.service}</TableCell>
                     <TableCell>{order.platform}</TableCell>
                     <TableCell>{order.quantity.toLocaleString()}</TableCell>
-                    <TableCell>{order.amount} ر.س</TableCell>
+                    <TableCell>${order.amount}</TableCell>
                     <TableCell>
                       <div className="w-full bg-gray-200 rounded-full h-2.5">
                         <div
@@ -718,7 +688,7 @@ const OrdersTable = ({ orders, onViewOrder }: OrdersTableProps) => {
               ) : (
                 <TableRow>
                   <TableCell colSpan={10} className="text-center py-8">
-                    لا توجد طلبات متطابقة مع البحث
+                    No matching orders found
                   </TableCell>
                 </TableRow>
               )}

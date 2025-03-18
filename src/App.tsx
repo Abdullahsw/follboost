@@ -121,7 +121,7 @@ function App() {
         console.error("Error:", err);
         // Show a more user-friendly error message
         setError(
-          "لا يمكن الاتصال بقاعدة البيانات. يرجى التحقق من اتصال الإنترنت الخاص بك أو تشغيل الوضع غير المتصل.",
+          "Cannot connect to the database. Please check your internet connection or enable offline mode.",
         );
         setIsLoading(false);
       }
@@ -135,7 +135,7 @@ function App() {
       <div className="flex items-center justify-center h-screen">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-700">جاري تحميل التطبيق...</p>
+          <p className="text-gray-700">Loading application...</p>
         </div>
       </div>
     );
@@ -144,14 +144,16 @@ function App() {
   if (error) {
     return (
       <div className="flex flex-col items-center justify-center h-screen p-4">
-        <h1 className="text-2xl font-bold text-red-600 mb-4">خطأ في التطبيق</h1>
+        <h1 className="text-2xl font-bold text-red-600 mb-4">
+          Application Error
+        </h1>
         <p className="text-gray-700 mb-4 text-center">{error}</p>
         <div className="flex gap-4">
           <button
             className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
             onClick={() => window.location.reload()}
           >
-            إعادة تحميل التطبيق
+            Reload Application
           </button>
           <button
             className="px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700"
@@ -161,7 +163,7 @@ function App() {
               setIsLoading(false);
             }}
           >
-            تشغيل الوضع غير المتصل
+            Enable Offline Mode
           </button>
         </div>
       </div>
@@ -174,7 +176,7 @@ function App() {
         <Suspense
           fallback={
             <div className="flex items-center justify-center h-screen">
-              جاري التحميل...
+              Loading...
             </div>
           }
         >
@@ -250,11 +252,11 @@ function App() {
                   path="reports"
                   element={
                     <div className="max-w-7xl mx-auto p-6">
-                      <h1 className="text-2xl font-bold text-right mb-6">
-                        التقارير والإحصائيات
+                      <h1 className="text-2xl font-bold mb-6">
+                        Reports & Statistics
                       </h1>
                       <p className="text-center p-10 bg-white rounded-lg shadow">
-                        قسم التقارير والإحصائيات قيد التطوير
+                        Reports & Statistics section is under development
                       </p>
                     </div>
                   }
@@ -263,11 +265,11 @@ function App() {
                   path="content"
                   element={
                     <div className="max-w-7xl mx-auto p-6">
-                      <h1 className="text-2xl font-bold text-right mb-6">
-                        المحتوى والصفحات
+                      <h1 className="text-2xl font-bold mb-6">
+                        Content & Pages
                       </h1>
                       <p className="text-center p-10 bg-white rounded-lg shadow">
-                        قسم المحتوى والصفحات قيد التطوير
+                        Content & Pages section is under development
                       </p>
                     </div>
                   }
@@ -276,11 +278,11 @@ function App() {
                   path="settings"
                   element={
                     <div className="max-w-7xl mx-auto p-6">
-                      <h1 className="text-2xl font-bold text-right mb-6">
-                        إعدادات النظام
+                      <h1 className="text-2xl font-bold mb-6">
+                        System Settings
                       </h1>
                       <p className="text-center p-10 bg-white rounded-lg shadow">
-                        قسم إعدادات النظام قيد التطوير
+                        System Settings section is under development
                       </p>
                     </div>
                   }
@@ -289,11 +291,11 @@ function App() {
                   path="support"
                   element={
                     <div className="max-w-7xl mx-auto p-6">
-                      <h1 className="text-2xl font-bold text-right mb-6">
-                        الدعم الفني
+                      <h1 className="text-2xl font-bold mb-6">
+                        Technical Support
                       </h1>
                       <p className="text-center p-10 bg-white rounded-lg shadow">
-                        قسم الدعم الفني قيد التطوير
+                        Technical Support section is under development
                       </p>
                     </div>
                   }
@@ -302,11 +304,9 @@ function App() {
                   path="profile"
                   element={
                     <div className="max-w-7xl mx-auto p-6">
-                      <h1 className="text-2xl font-bold text-right mb-6">
-                        الملف الشخصي
-                      </h1>
+                      <h1 className="text-2xl font-bold mb-6">Profile</h1>
                       <p className="text-center p-10 bg-white rounded-lg shadow">
-                        قسم الملف الشخصي قيد التطوير
+                        Profile section is under development
                       </p>
                     </div>
                   }
