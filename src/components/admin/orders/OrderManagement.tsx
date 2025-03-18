@@ -227,7 +227,7 @@ const OrderManagement = () => {
           };
         }
         return order;
-      });
+      }) as Order[];
 
       setOrders(updatedOrders);
       setIsSubmitting(false);
@@ -263,7 +263,7 @@ const OrderManagement = () => {
           };
         }
         return order;
-      });
+      }) as Order[];
 
       setOrders(updatedOrders);
       setIsSubmitting(false);

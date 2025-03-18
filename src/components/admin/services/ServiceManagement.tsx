@@ -379,12 +379,16 @@ const ServiceManagement = () => {
     // Get form data
     const name = (document.getElementById("service-name") as HTMLInputElement)
       ?.value;
-    const platform = (
-      document.getElementById("service-platform") as HTMLSelectElement
-    )?.value;
-    const category = (
-      document.getElementById("service-category") as HTMLSelectElement
-    )?.value;
+    const platformEl = document.getElementById("service-platform");
+    const platform = platformEl
+      ? (platformEl.querySelector("[data-value]") as HTMLElement)?.dataset.value
+      : "";
+
+    const categoryEl = document.getElementById("service-category");
+    const category = categoryEl
+      ? (categoryEl.querySelector("[data-value]") as HTMLElement)?.dataset.value
+      : "";
+
     const price = parseFloat(
       (document.getElementById("service-price") as HTMLInputElement)?.value ||
         "0",
@@ -404,9 +408,12 @@ const ServiceManagement = () => {
     const description = (
       document.getElementById("service-description") as HTMLTextAreaElement
     )?.value;
-    const provider = (
-      document.getElementById("service-provider") as HTMLSelectElement
-    )?.value;
+
+    const providerEl = document.getElementById("service-provider");
+    const provider = providerEl
+      ? (providerEl.querySelector("[data-value]") as HTMLElement)?.dataset.value
+      : "";
+
     const providerServiceId = (
       document.getElementById("service-provider-id") as HTMLInputElement
     )?.value;
@@ -500,9 +507,11 @@ const ServiceManagement = () => {
     const description = (
       document.getElementById("edit-service-description") as HTMLTextAreaElement
     )?.value;
-    const status = (
-      document.getElementById("edit-service-status") as HTMLSelectElement
-    )?.value;
+
+    const statusEl = document.getElementById("edit-service-status");
+    const status = statusEl
+      ? (statusEl.querySelector("[data-value]") as HTMLElement)?.dataset.value
+      : "Active";
 
     // Validate form
     if (
@@ -879,52 +888,58 @@ const ServiceManagement = () => {
                     <Label htmlFor="service-platform" className="block">
                       Platform
                     </Label>
-                    <Select id="service-platform" required>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select platform" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {platforms.map((platform) => (
-                          <SelectItem key={platform.id} value={platform.name}>
-                            {platform.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <div id="service-platform">
+                      <Select>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select platform" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {platforms.map((platform) => (
+                            <SelectItem key={platform.id} value={platform.name}>
+                              {platform.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="service-category" className="block">
                       Category
                     </Label>
-                    <Select id="service-category" required>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select category" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {categories.map((category) => (
-                          <SelectItem key={category.id} value={category.name}>
-                            {category.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <div id="service-category">
+                      <Select>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select category" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {categories.map((category) => (
+                            <SelectItem key={category.id} value={category.name}>
+                              {category.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="service-provider" className="block">
                       Service Provider
                     </Label>
-                    <Select id="service-provider" required>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select service provider" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {providers.map((provider) => (
-                          <SelectItem key={provider.id} value={provider.id}>
-                            {provider.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <div id="service-provider">
+                      <Select>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select service provider" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {providers.map((provider) => (
+                            <SelectItem key={provider.id} value={provider.id}>
+                              {provider.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="service-provider-id" className="block">
@@ -1220,7 +1235,7 @@ const ServiceManagement = () => {
                                 size="sm"
                                 onClick={() => {
                                   // Toggle selection for all services in this category
-                                  const allSelected = services.every(
+                                  const allSelected = (services as any[]).every(
                                     (s) => s.selected,
                                   );
                                   const updatedServices = apiServices.map(
@@ -1237,7 +1252,7 @@ const ServiceManagement = () => {
                                   setApiServices(updatedServices);
                                 }}
                               >
-                                {services.every((s) => s.selected)
+                                {(services as any[]).every((s) => s.selected)
                                   ? "Deselect All"
                                   : "Select All"}
                               </Button>
@@ -1261,7 +1276,7 @@ const ServiceManagement = () => {
                                   </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                  {services.map((service) => (
+                                  {(services as any[]).map((service) => (
                                     <TableRow
                                       key={service.id}
                                       className="cursor-pointer hover:bg-gray-50"
@@ -1435,19 +1450,21 @@ const ServiceManagement = () => {
                                         >
                                           Status
                                         </Label>
-                                        <Select defaultValue={service.status}>
-                                          <SelectTrigger id="edit-service-status">
-                                            <SelectValue />
-                                          </SelectTrigger>
-                                          <SelectContent>
-                                            <SelectItem value="Active">
-                                              Active
-                                            </SelectItem>
-                                            <SelectItem value="Inactive">
-                                              Inactive
-                                            </SelectItem>
-                                          </SelectContent>
-                                        </Select>
+                                        <div id="edit-service-status">
+                                          <Select defaultValue={service.status}>
+                                            <SelectTrigger>
+                                              <SelectValue />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                              <SelectItem value="Active">
+                                                Active
+                                              </SelectItem>
+                                              <SelectItem value="Inactive">
+                                                Inactive
+                                              </SelectItem>
+                                            </SelectContent>
+                                          </Select>
+                                        </div>
                                       </div>
                                       <div className="space-y-2">
                                         <Label
