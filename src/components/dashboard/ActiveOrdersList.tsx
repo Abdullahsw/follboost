@@ -49,76 +49,76 @@ const ActiveOrdersList = ({
   orders = [
     {
       id: "ORD-001",
-      service: "متابعين انستغرام",
+      service: "Instagram Followers",
       platform: "Instagram",
       quantity: 1000,
       progress: 65,
       date: "2023-06-15",
       status: {
         value: "in-progress",
-        label: "قيد التنفيذ",
+        label: "In Progress",
         color: "bg-amber-100 text-amber-800 hover:bg-amber-100",
       },
       link: "https://instagram.com/username",
     },
     {
       id: "ORD-002",
-      service: "إعجابات تويتر",
+      service: "Twitter Likes",
       platform: "Twitter",
       quantity: 500,
       progress: 100,
       date: "2023-06-14",
       status: {
         value: "completed",
-        label: "مكتمل",
+        label: "Completed",
         color: "bg-green-100 text-green-800 hover:bg-green-100",
       },
       link: "https://twitter.com/username/status/123456789",
     },
     {
       id: "ORD-003",
-      service: "مشاهدات يوتيوب",
+      service: "YouTube Views",
       platform: "YouTube",
       quantity: 5000,
       progress: 30,
       date: "2023-06-16",
       status: {
         value: "in-progress",
-        label: "قيد التنفيذ",
+        label: "In Progress",
         color: "bg-amber-100 text-amber-800 hover:bg-amber-100",
       },
       link: "https://youtube.com/watch?v=abcdefg",
     },
     {
       id: "ORD-004",
-      service: "متابعين تيك توك",
+      service: "TikTok Followers",
       platform: "TikTok",
       quantity: 2000,
       progress: 0,
       date: "2023-06-17",
       status: {
         value: "pending",
-        label: "قيد الانتظار",
+        label: "Pending",
         color: "bg-blue-100 text-blue-800 hover:bg-blue-100",
       },
       link: "https://tiktok.com/@username",
     },
     {
       id: "ORD-005",
-      service: "إعجابات فيسبوك",
+      service: "Facebook Likes",
       platform: "Facebook",
       quantity: 300,
       progress: 10,
       date: "2023-06-16",
       status: {
         value: "in-progress",
-        label: "قيد التنفيذ",
+        label: "In Progress",
         color: "bg-amber-100 text-amber-800 hover:bg-amber-100",
       },
       link: "https://facebook.com/posts/123456789",
     },
   ],
-  title = "الطلبات النشطة",
+  title = "Active Orders",
 }: ActiveOrdersListProps) => {
   return (
     <Card className="w-full bg-white shadow-sm">
@@ -130,14 +130,14 @@ const ActiveOrdersList = ({
           <Table dir="rtl">
             <TableHeader>
               <TableRow>
-                <TableHead className="text-right">رقم الطلب</TableHead>
-                <TableHead className="text-right">الخدمة</TableHead>
-                <TableHead className="text-right">المنصة</TableHead>
-                <TableHead className="text-right">الكمية</TableHead>
-                <TableHead className="text-right">التقدم</TableHead>
-                <TableHead className="text-right">التاريخ</TableHead>
-                <TableHead className="text-right">الحالة</TableHead>
-                <TableHead className="text-right">الإجراءات</TableHead>
+                <TableHead className="text-right">Order ID</TableHead>
+                <TableHead className="text-right">Service</TableHead>
+                <TableHead className="text-right">Platform</TableHead>
+                <TableHead className="text-right">Quantity</TableHead>
+                <TableHead className="text-right">Progress</TableHead>
+                <TableHead className="text-right">Date</TableHead>
+                <TableHead className="text-right">Status</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -171,7 +171,7 @@ const ActiveOrdersList = ({
                             </Button>
                           </TooltipTrigger>
                           <TooltipContent>
-                            <p>عرض التفاصيل</p>
+                            <p>View Details</p>
                           </TooltipContent>
                         </Tooltip>
                       </TooltipProvider>
@@ -187,7 +187,7 @@ const ActiveOrdersList = ({
                             </Button>
                           </TooltipTrigger>
                           <TooltipContent>
-                            <p>خيارات إضافية</p>
+                            <p>More Options</p>
                           </TooltipContent>
                         </Tooltip>
                       </TooltipProvider>

@@ -15,7 +15,7 @@ interface HomeProps {
 }
 
 const Home = ({
-  userName = "محمد أحمد",
+  userName = "John Smith",
   userAvatar = "https://api.dicebear.com/7.x/avataaars/svg?seed=user123",
   balance = 250,
   activeOrders = 5,
@@ -58,7 +58,7 @@ const Home = ({
         <main className="flex-1 overflow-y-auto p-4 md:p-6">
           <div className="max-w-7xl mx-auto space-y-6">
             <h1 className="text-2xl font-bold text-gray-800 text-right mb-6">
-              لوحة التحكم
+              Dashboard
             </h1>
 
             {/* Dashboard Stats */}
@@ -79,17 +79,17 @@ const Home = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
               <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
                 <h2 className="text-xl font-semibold text-right mb-4">
-                  إجراءات سريعة
+                  Quick Actions
                 </h2>
                 <div className="flex flex-col space-y-3">
                   <button className="bg-primary text-white py-2 px-4 rounded-md text-right w-full hover:bg-primary/90 transition-colors">
-                    إنشاء طلب جديد
+                    Create New Order
                   </button>
                   <button className="bg-green-500 text-white py-2 px-4 rounded-md text-right w-full hover:bg-green-600 transition-colors">
-                    إضافة رصيد
+                    Add Funds
                   </button>
                   <button className="bg-purple-500 text-white py-2 px-4 rounded-md text-right w-full hover:bg-purple-600 transition-colors">
-                    دعوة صديق
+                    Invite a Friend
                   </button>
                 </div>
               </div>
@@ -97,24 +97,24 @@ const Home = ({
               {/* Recent Activities */}
               <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
                 <h2 className="text-xl font-semibold text-right mb-4">
-                  آخر النشاطات
+                  Recent Activities
                 </h2>
                 <div className="space-y-4">
                   {[
                     {
-                      action: "تم إضافة رصيد",
-                      details: "50 ر.س",
-                      time: "منذ 2 ساعة",
+                      action: "Funds Added",
+                      details: "$50",
+                      time: "2 hours ago",
                     },
                     {
-                      action: "تم إنشاء طلب جديد",
-                      details: "متابعين انستغرام",
-                      time: "منذ 5 ساعات",
+                      action: "New Order Created",
+                      details: "Instagram Followers",
+                      time: "5 hours ago",
                     },
                     {
-                      action: "اكتمل الطلب",
-                      details: "إعجابات تويتر",
-                      time: "منذ يوم واحد",
+                      action: "Order Completed",
+                      details: "Twitter Likes",
+                      time: "1 day ago",
                     },
                   ].map((activity, index) => (
                     <div
