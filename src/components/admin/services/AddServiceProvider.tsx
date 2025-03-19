@@ -47,7 +47,7 @@ const AddServiceProvider: React.FC<AddServiceProviderProps> = ({
 
   const handleTestConnection = async () => {
     if (!formData.url || !formData.apiKey) {
-      setError("يرجى إدخال عنوان API ومفتاح API على الأقل");
+      setError("Please enter API URL and API key at minimum");
       return;
     }
 
@@ -91,7 +91,7 @@ const AddServiceProvider: React.FC<AddServiceProviderProps> = ({
       console.error("Error testing connection:", error);
       setTestResult({
         success: false,
-        message: "حدث خطأ أثناء اختبار الاتصال",
+        message: "An error occurred while testing the connection",
         details: error.message || "Unknown error",
       });
     } finally {
@@ -103,7 +103,7 @@ const AddServiceProvider: React.FC<AddServiceProviderProps> = ({
     e.preventDefault();
 
     if (!formData.name || !formData.url || !formData.apiKey) {
-      setError("يرجى ملء جميع الحقول المطلوبة");
+      setError("Please fill in all required fields");
       return;
     }
 
@@ -143,7 +143,7 @@ const AddServiceProvider: React.FC<AddServiceProviderProps> = ({
       }, 3000);
     } catch (error) {
       console.error("Error adding provider:", error);
-      setError("حدث خطأ أثناء إضافة مزود الخدمة");
+      setError("An error occurred while adding the service provider");
     } finally {
       setIsLoading(false);
     }
@@ -153,7 +153,7 @@ const AddServiceProvider: React.FC<AddServiceProviderProps> = ({
     <Card className="w-full bg-white shadow-sm">
       <CardHeader>
         <CardTitle className="text-xl font-bold text-right">
-          إضافة مزود خدمة جديد
+          Add New Service Provider
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -161,9 +161,11 @@ const AddServiceProvider: React.FC<AddServiceProviderProps> = ({
           {success && (
             <Alert className="bg-green-50 border-green-200 text-green-800">
               <CheckCircle className="h-4 w-4" />
-              <AlertTitle className="text-right">تمت العملية بنجاح!</AlertTitle>
+              <AlertTitle className="text-right">
+                Operation Successful!
+              </AlertTitle>
               <AlertDescription className="text-right">
-                تم إضافة مزود الخدمة بنجاح.
+                Service provider has been added successfully.
               </AlertDescription>
             </Alert>
           )}
@@ -171,7 +173,7 @@ const AddServiceProvider: React.FC<AddServiceProviderProps> = ({
           {error && (
             <Alert variant="destructive">
               <AlertCircle className="h-4 w-4" />
-              <AlertTitle className="text-right">خطأ</AlertTitle>
+              <AlertTitle className="text-right">Error</AlertTitle>
               <AlertDescription className="text-right">
                 {error}
               </AlertDescription>
@@ -205,7 +207,7 @@ const AddServiceProvider: React.FC<AddServiceProviderProps> = ({
           {suggestions.length > 0 && !testResult?.success && (
             <div className="bg-yellow-50 p-4 rounded-lg">
               <h3 className="font-semibold mb-2 text-right">
-                اقتراحات لإصلاح المشكلة:
+                Suggestions to fix the issue:
               </h3>
               <ul className="space-y-1 text-right">
                 {suggestions.map((suggestion, index) => (
@@ -220,12 +222,12 @@ const AddServiceProvider: React.FC<AddServiceProviderProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <Label htmlFor="provider-name" className="text-right block">
-                اسم مزود الخدمة
+                Service Provider Name
               </Label>
               <Input
                 id="provider-name"
                 name="name"
-                placeholder="أدخل اسم مزود الخدمة"
+                placeholder="Enter service provider name"
                 className="text-right"
                 value={formData.name}
                 onChange={handleChange}
@@ -235,7 +237,7 @@ const AddServiceProvider: React.FC<AddServiceProviderProps> = ({
 
             <div className="space-y-2">
               <Label htmlFor="provider-url" className="text-right block">
-                عنوان API
+                API URL
               </Label>
               <Input
                 id="provider-url"
@@ -247,19 +249,19 @@ const AddServiceProvider: React.FC<AddServiceProviderProps> = ({
                 required
               />
               <p className="text-xs text-gray-500 mt-1 text-right">
-                يجب أن يبدأ العنوان بـ http:// أو https://
+                URL must start with http:// or https://
               </p>
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="provider-api-key" className="text-right block">
-                مفتاح API
+                API Key
               </Label>
               <Input
                 id="provider-api-key"
                 name="apiKey"
                 type="password"
-                placeholder="أدخل مفتاح API"
+                placeholder="Enter API key"
                 dir="ltr"
                 value={formData.apiKey}
                 onChange={handleChange}
@@ -269,13 +271,13 @@ const AddServiceProvider: React.FC<AddServiceProviderProps> = ({
 
             <div className="space-y-2">
               <Label htmlFor="provider-api-secret" className="text-right block">
-                كلمة سر API (اختياري)
+                API Secret (Optional)
               </Label>
               <Input
                 id="provider-api-secret"
                 name="apiSecret"
                 type="password"
-                placeholder="أدخل كلمة سر API إذا كانت مطلوبة"
+                placeholder="Enter API secret if required"
                 dir="ltr"
                 value={formData.apiSecret}
                 onChange={handleChange}
@@ -294,10 +296,10 @@ const AddServiceProvider: React.FC<AddServiceProviderProps> = ({
               {isTesting ? (
                 <>
                   <RefreshCw className="h-4 w-4 animate-spin" />
-                  جاري الاختبار...
+                  Testing...
                 </>
               ) : (
-                <>اختبار الاتصال</>
+                <>Test Connection</>
               )}
             </Button>
 
@@ -311,7 +313,7 @@ const AddServiceProvider: React.FC<AddServiceProviderProps> = ({
               }
               className="flex items-center gap-2"
             >
-              {isLoading ? "جاري الإضافة..." : "إضافة مزود الخدمة"}
+              {isLoading ? "Adding..." : "Add Service Provider"}
             </Button>
           </div>
         </form>

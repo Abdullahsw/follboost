@@ -123,21 +123,21 @@ const ActiveOrdersList = ({
   return (
     <Card className="w-full bg-white shadow-sm">
       <CardHeader className="pb-2">
-        <CardTitle className="text-xl font-bold text-right">{title}</CardTitle>
+        <CardTitle className="text-xl font-bold">{title}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="overflow-x-auto">
-          <Table dir="rtl">
+          <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="text-right">Order ID</TableHead>
-                <TableHead className="text-right">Service</TableHead>
-                <TableHead className="text-right">Platform</TableHead>
-                <TableHead className="text-right">Quantity</TableHead>
-                <TableHead className="text-right">Progress</TableHead>
-                <TableHead className="text-right">Date</TableHead>
-                <TableHead className="text-right">Status</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead>Order ID</TableHead>
+                <TableHead>Service</TableHead>
+                <TableHead>Platform</TableHead>
+                <TableHead>Quantity</TableHead>
+                <TableHead>Progress</TableHead>
+                <TableHead>Date</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

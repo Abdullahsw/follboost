@@ -57,9 +57,7 @@ const Home = ({
         {/* Page Content */}
         <main className="flex-1 overflow-y-auto p-4 md:p-6">
           <div className="max-w-7xl mx-auto space-y-6">
-            <h1 className="text-2xl font-bold text-gray-800 text-right mb-6">
-              Dashboard
-            </h1>
+            <h1 className="text-2xl font-bold text-gray-800 mb-6">Dashboard</h1>
 
             {/* Dashboard Stats */}
             <DashboardStats
@@ -78,17 +76,15 @@ const Home = ({
             {/* Quick Actions */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
               <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                <h2 className="text-xl font-semibold text-right mb-4">
-                  Quick Actions
-                </h2>
+                <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
                 <div className="flex flex-col space-y-3">
-                  <button className="bg-primary text-white py-2 px-4 rounded-md text-right w-full hover:bg-primary/90 transition-colors">
+                  <button className="bg-primary text-white py-2 px-4 rounded-md w-full hover:bg-primary/90 transition-colors">
                     Create New Order
                   </button>
-                  <button className="bg-green-500 text-white py-2 px-4 rounded-md text-right w-full hover:bg-green-600 transition-colors">
+                  <button className="bg-green-500 text-white py-2 px-4 rounded-md w-full hover:bg-green-600 transition-colors">
                     Add Funds
                   </button>
-                  <button className="bg-purple-500 text-white py-2 px-4 rounded-md text-right w-full hover:bg-purple-600 transition-colors">
+                  <button className="bg-purple-500 text-white py-2 px-4 rounded-md w-full hover:bg-purple-600 transition-colors">
                     Invite a Friend
                   </button>
                 </div>
@@ -96,7 +92,7 @@ const Home = ({
 
               {/* Recent Activities */}
               <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                <h2 className="text-xl font-semibold text-right mb-4">
+                <h2 className="text-xl font-semibold mb-4">
                   Recent Activities
                 </h2>
                 <div className="space-y-4">
@@ -124,7 +120,7 @@ const Home = ({
                       <span className="text-gray-500 text-sm">
                         {activity.time}
                       </span>
-                      <div className="text-right">
+                      <div>
                         <p className="font-medium">{activity.action}</p>
                         <p className="text-sm text-gray-600">
                           {activity.details}

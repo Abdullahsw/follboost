@@ -22,7 +22,7 @@ interface AdminHeaderProps {
 
 const AdminHeader = ({
   onToggleSidebar = () => {},
-  userName = "مدير النظام",
+  userName = "System Admin",
   userAvatar = "",
   isLoggedIn = true,
 }: AdminHeaderProps) => {
@@ -33,7 +33,7 @@ const AdminHeader = ({
     e.preventDefault();
     // Implement search functionality here
     console.log("Admin searching for:", searchQuery);
-    alert(`جاري البحث عن: ${searchQuery}`);
+    alert(`Searching for: ${searchQuery}`);
   };
 
   const handleLogout = () => {
@@ -64,7 +64,7 @@ const AdminHeader = ({
         <form onSubmit={handleSearch} className="w-full">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-white/70" />
           <Input
-            placeholder="بحث في لوحة التحكم..."
+            placeholder="Search in admin panel..."
             className="pl-10 pr-4 w-full text-right bg-primary-foreground/20 border-primary-foreground/30 text-white placeholder:text-white/70"
             dir="rtl"
             value={searchQuery}
@@ -80,7 +80,7 @@ const AdminHeader = ({
               variant="ghost"
               size="icon"
               className="relative text-white hover:bg-primary-foreground/20"
-              onClick={() => alert("تم النقر على زر الإشعارات")}
+              onClick={() => alert("Notifications button clicked")}
             >
               <Bell className="h-5 w-5" />
               <span className="absolute top-1 right-1 bg-red-500 rounded-full w-2 h-2"></span>
@@ -113,7 +113,7 @@ const AdminHeader = ({
                     to="/admin/profile"
                     className="flex w-full justify-end items-center gap-2"
                   >
-                    الملف الشخصي
+                    Profile
                     <User className="h-4 w-4" />
                   </Link>
                 </DropdownMenuItem>
@@ -122,7 +122,7 @@ const AdminHeader = ({
                     to="/admin/settings"
                     className="flex w-full justify-end items-center gap-2"
                   >
-                    الإعدادات
+                    Settings
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
@@ -130,7 +130,7 @@ const AdminHeader = ({
                   className="text-right text-red-500"
                   onClick={handleLogout}
                 >
-                  تسجيل الخروج
+                  Logout
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -142,7 +142,7 @@ const AdminHeader = ({
               size="sm"
               onClick={() => navigate("/admin/login")}
             >
-              تسجيل الدخول
+              Login
             </Button>
           </div>
         )}
