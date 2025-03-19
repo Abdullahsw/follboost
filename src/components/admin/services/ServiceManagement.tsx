@@ -1158,7 +1158,7 @@ const ServiceManagement = () => {
 
                             // Fetch services
                             const services =
-                              await ServiceProviderManager.fetchServices(
+                              await serviceProviderManager.fetchServices(
                                 selectedProvider,
                               );
 
