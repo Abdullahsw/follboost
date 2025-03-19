@@ -1252,7 +1252,9 @@ const ServiceManagement = () => {
                                   setApiServices(updatedServices);
                                 }}
                               >
-                                {(services as any[]).every((s) => s.selected)
+                                {Array.isArray(services) &&
+                                services.length > 0 &&
+                                services.every((s) => s.selected)
                                   ? "Deselect All"
                                   : "Select All"}
                               </Button>

@@ -4,12 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
-import { CheckCircle, AlertCircle, Globe, DollarSign } from "lucide-react";
+import { CheckCircle, AlertCircle, DollarSign } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const LanguageCurrencySettings = () => {
-  const [language, setLanguage] = useState("ar");
-  const [currency, setCurrency] = useState("SAR");
+  const [currency, setCurrency] = useState("USD");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
@@ -29,31 +28,24 @@ const LanguageCurrencySettings = () => {
     }, 1500);
   };
 
-  const languages = [
-    { id: "ar", name: "العربية", flag: "🇸🇦" },
-    { id: "en", name: "English", flag: "🇺🇸" },
-  ];
-
   const currencies = [
-    { id: "SAR", name: "ريال سعودي", symbol: "ر.س", rate: 1 },
-    { id: "USD", name: "دولار أمريكي", symbol: "$", rate: 0.27 },
-    { id: "IQD", name: "دينار عراقي", symbol: "د.ع", rate: 350 },
+    { id: "USD", name: "US Dollar", symbol: "$", rate: 1 },
+    { id: "EUR", name: "Euro", symbol: "€", rate: 0.92 },
+    { id: "GBP", name: "British Pound", symbol: "£", rate: 0.79 },
   ];
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold text-gray-800 text-right mb-6">
-        إعدادات اللغة والعملة
+      <h1 className="text-2xl font-bold text-gray-800 mb-6">
+        Currency Settings
       </h1>
 
       {success && (
         <Alert className="bg-green-50 border-green-200 text-green-800">
           <CheckCircle className="h-4 w-4" />
-          <AlertTitle className="text-right">
-            تم حفظ الإعدادات بنجاح!
-          </AlertTitle>
-          <AlertDescription className="text-right">
-            تم تحديث إعدادات اللغة والعملة بنجاح.
+          <AlertTitle>Settings saved successfully!</AlertTitle>
+          <AlertDescription>
+            Your currency settings have been updated.
           </AlertDescription>
         </Alert>
       )}
@@ -61,149 +53,107 @@ const LanguageCurrencySettings = () => {
       {error && (
         <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />
-          <AlertTitle className="text-right">خطأ</AlertTitle>
-          <AlertDescription className="text-right">{error}</AlertDescription>
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="w-full bg-white shadow-sm">
-          <CardHeader>
-            <CardTitle className="text-xl font-bold text-right flex items-center justify-end gap-2">
-              إعدادات اللغة
-              <Globe className="h-5 w-5 text-blue-500" />
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <Label className="text-right block">اختر لغة التطبيق</Label>
-              <RadioGroup
-                value={language}
-                onValueChange={setLanguage}
-                className="space-y-3"
-              >
-                {languages.map((lang) => (
-                  <div
-                    key={lang.id}
-                    className="flex items-center justify-end space-x-2 space-x-reverse border rounded-md p-3 cursor-pointer hover:bg-gray-50"
-                  >
-                    <div className="flex-1 text-right">
-                      <div className="font-medium">{lang.name}</div>
+      <Card className="w-full bg-white shadow-sm">
+        <CardHeader>
+          <CardTitle className="text-xl font-bold flex items-center gap-2">
+            <DollarSign className="h-5 w-5 text-green-500" />
+            Currency Settings
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <Label>Select payment currency</Label>
+            <RadioGroup
+              value={currency}
+              onValueChange={setCurrency}
+              className="space-y-3"
+            >
+              {currencies.map((curr) => (
+                <div
+                  key={curr.id}
+                  className="flex items-center space-x-2 border rounded-md p-3 cursor-pointer hover:bg-gray-50"
+                >
+                  <RadioGroupItem value={curr.id} id={`curr-${curr.id}`} />
+                  <span className="text-xl font-bold mr-2">{curr.symbol}</span>
+                  <div className="flex-1">
+                    <div className="font-medium">{curr.name}</div>
+                    <div className="text-sm text-gray-500">
+                      Exchange rate:{" "}
+                      {curr.rate === 1
+                        ? "Base currency"
+                        : `1 USD = ${curr.rate} ${curr.symbol}`}
                     </div>
-                    <RadioGroupItem value={lang.id} id={`lang-${lang.id}`} />
-                    <span className="text-xl ml-2">{lang.flag}</span>
                   </div>
-                ))}
-              </RadioGroup>
+                </div>
+              ))}
+            </RadioGroup>
 
-              <div className="bg-blue-50 p-4 rounded-md mt-4">
-                <p className="text-sm text-blue-700 text-right">
-                  <strong>ملاحظة:</strong> سيتم تغيير لغة واجهة التطبيق فقط. لن
-                  يؤثر ذلك على محتوى الخدمات أو الطلبات الحالية.
-                </p>
-              </div>
+            <div className="bg-amber-50 p-4 rounded-md mt-4">
+              <p className="text-sm text-amber-700">
+                <strong>Important:</strong> When changing the currency, all
+                prices and balances will be automatically converted according to
+                the current exchange rate.
+              </p>
             </div>
-          </CardContent>
-        </Card>
-
-        <Card className="w-full bg-white shadow-sm">
-          <CardHeader>
-            <CardTitle className="text-xl font-bold text-right flex items-center justify-end gap-2">
-              إعدادات العملة
-              <DollarSign className="h-5 w-5 text-green-500" />
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <Label className="text-right block">اختر عملة الدفع</Label>
-              <RadioGroup
-                value={currency}
-                onValueChange={setCurrency}
-                className="space-y-3"
-              >
-                {currencies.map((curr) => (
-                  <div
-                    key={curr.id}
-                    className="flex items-center justify-end space-x-2 space-x-reverse border rounded-md p-3 cursor-pointer hover:bg-gray-50"
-                  >
-                    <div className="flex-1 text-right">
-                      <div className="font-medium">{curr.name}</div>
-                      <div className="text-sm text-gray-500">
-                        سعر الصرف:{" "}
-                        {curr.rate === 1
-                          ? "العملة الأساسية"
-                          : `1 ر.س = ${curr.rate} ${curr.symbol}`}
-                      </div>
-                    </div>
-                    <RadioGroupItem value={curr.id} id={`curr-${curr.id}`} />
-                    <span className="text-xl font-bold ml-2">
-                      {curr.symbol}
-                    </span>
-                  </div>
-                ))}
-              </RadioGroup>
-
-              <div className="bg-amber-50 p-4 rounded-md mt-4">
-                <p className="text-sm text-amber-700 text-right">
-                  <strong>هام:</strong> عند تغيير العملة، سيتم تحويل جميع
-                  الأسعار والأرصدة تلقائياً حسب سعر الصرف الحالي.
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+          </div>
+        </CardContent>
+      </Card>
 
       <Card className="w-full bg-white shadow-sm">
         <CardHeader>
-          <CardTitle className="text-xl font-bold text-right">
-            أمثلة على تحويل العملات
+          <CardTitle className="text-xl font-bold">
+            Currency Conversion Examples
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             <div className="overflow-x-auto">
-              <table className="w-full" dir="rtl">
+              <table className="w-full">
                 <thead>
                   <tr className="border-b">
-                    <th className="text-right py-3 px-4 font-medium text-gray-700">
-                      الخدمة
+                    <th className="text-left py-3 px-4 font-medium text-gray-700">
+                      Service
                     </th>
-                    <th className="text-right py-3 px-4 font-medium text-gray-700">
-                      السعر (ر.س)
+                    <th className="text-left py-3 px-4 font-medium text-gray-700">
+                      Price (USD)
                     </th>
-                    <th className="text-right py-3 px-4 font-medium text-gray-700">
-                      السعر ($)
+                    <th className="text-left py-3 px-4 font-medium text-gray-700">
+                      Price (EUR)
                     </th>
-                    <th className="text-right py-3 px-4 font-medium text-gray-700">
-                      السعر (د.ع)
+                    <th className="text-left py-3 px-4 font-medium text-gray-700">
+                      Price (GBP)
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr className="border-b hover:bg-gray-50">
                     <td className="py-3 px-4 text-gray-800">
-                      1000 متابع انستغرام
+                      1000 Instagram Followers
                     </td>
-                    <td className="py-3 px-4 text-gray-800">50 ر.س</td>
-                    <td className="py-3 px-4 text-gray-800">$13.50</td>
-                    <td className="py-3 px-4 text-gray-800">17,500 د.ع</td>
+                    <td className="py-3 px-4 text-gray-800">$15.00</td>
+                    <td className="py-3 px-4 text-gray-800">€13.80</td>
+                    <td className="py-3 px-4 text-gray-800">£11.85</td>
                   </tr>
                   <tr className="border-b hover:bg-gray-50">
                     <td className="py-3 px-4 text-gray-800">
-                      5000 مشاهدة يوتيوب
+                      5000 YouTube Views
                     </td>
-                    <td className="py-3 px-4 text-gray-800">75 ر.س</td>
-                    <td className="py-3 px-4 text-gray-800">$20.25</td>
-                    <td className="py-3 px-4 text-gray-800">26,250 د.ع</td>
+                    <td className="py-3 px-4 text-gray-800">$25.00</td>
+                    <td className="py-3 px-4 text-gray-800">€23.00</td>
+                    <td className="py-3 px-4 text-gray-800">£19.75</td>
                   </tr>
                   <tr className="hover:bg-gray-50">
                     <td className="py-3 px-4 text-gray-800">
-                      2000 إعجاب تيك توك
+                      2000 TikTok Likes
                     </td>
-                    <td className="py-3 px-4 text-gray-800">60 ر.س</td>
-                    <td className="py-3 px-4 text-gray-800">$16.20</td>
-                    <td className="py-3 px-4 text-gray-800">21,000 د.ع</td>
+                    <td className="py-3 px-4 text-gray-800">$20.00</td>
+                    <td className="py-3 px-4 text-gray-800">€18.40</td>
+                    <td className="py-3 px-4 text-gray-800">£15.80</td>
                   </tr>
                 </tbody>
               </table>
@@ -211,10 +161,10 @@ const LanguageCurrencySettings = () => {
 
             <Separator className="my-4" />
 
-            <div className="text-right">
+            <div>
               <p className="text-gray-700">
-                <strong>ملاحظة:</strong> أسعار الصرف قابلة للتغيير وتُحدث بشكل
-                دوري من قبل إدارة الموقع.
+                <strong>Note:</strong> Exchange rates are subject to change and
+                are updated periodically by the site administration.
               </p>
             </div>
           </div>
@@ -223,7 +173,7 @@ const LanguageCurrencySettings = () => {
 
       <div className="flex justify-end">
         <Button onClick={handleSaveSettings} disabled={isSubmitting} size="lg">
-          {isSubmitting ? "جاري الحفظ..." : "حفظ الإعدادات"}
+          {isSubmitting ? "Saving..." : "Save Settings"}
         </Button>
       </div>
     </div>

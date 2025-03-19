@@ -38,13 +38,13 @@ const SidebarItem = ({
       <Button
         variant={active ? "secondary" : "ghost"}
         className={cn(
-          "w-full justify-start gap-3 px-3 py-6 text-right",
+          "w-full justify-start gap-3 px-3 py-6",
           active ? "bg-secondary" : "hover:bg-secondary/50",
         )}
       >
         <div className="flex items-center gap-3 w-full">
           <span className="flex-shrink-0">{icon}</span>
-          <span className="flex-grow text-right">{label}</span>
+          <span className="flex-grow">{label}</span>
         </div>
       </Button>
     </Link>
@@ -62,8 +62,8 @@ const Sidebar = () => {
       <div className="p-4">
         <div className="flex items-center justify-between mb-6">
           <div className="h-8 w-8 bg-primary rounded-full" />
-          <div className="text-right">
-            <p className="text-sm font-medium">لوحة التحكم</p>
+          <div>
+            <p className="text-sm font-medium">Dashboard</p>
             <p className="text-xs text-muted-foreground">FollBoost</p>
           </div>
         </div>
@@ -75,37 +75,37 @@ const Sidebar = () => {
         <div className="space-y-1 py-2">
           <SidebarItem
             icon={<LayoutDashboard size={20} />}
-            label="لوحة التحكم"
+            label="Dashboard"
             href="/dashboard"
             active={activePath === "/dashboard" || activePath === "/dashboard/"}
           />
           <SidebarItem
             icon={<PlusCircle size={20} />}
-            label="إنشاء طلب"
+            label="Create Order"
             href="/dashboard/create-order"
             active={activePath.includes("/dashboard/create-order")}
           />
           <SidebarItem
             icon={<ListOrdered size={20} />}
-            label="إدارة الطلبات"
+            label="Manage Orders"
             href="/dashboard/orders"
             active={activePath.includes("/dashboard/orders")}
           />
           <SidebarItem
             icon={<Clock size={20} />}
-            label="الخدمات"
+            label="Services"
             href="/dashboard/services"
             active={activePath.includes("/dashboard/services")}
           />
           <SidebarItem
             icon={<Users size={20} />}
-            label="نظام الإحالة"
+            label="Referral System"
             href="/dashboard/referrals"
             active={activePath.includes("/dashboard/referrals")}
           />
           <SidebarItem
             icon={<Wallet size={20} />}
-            label="إضافة رصيد"
+            label="Add Funds"
             href="/dashboard/add-funds"
             active={activePath.includes("/dashboard/add-funds")}
           />
@@ -116,25 +116,25 @@ const Sidebar = () => {
         <div className="space-y-1 py-2">
           <SidebarItem
             icon={<MessageSquare size={20} />}
-            label="الدعم الفني"
+            label="Support Tickets"
             href="/dashboard/tickets"
             active={activePath.includes("/dashboard/tickets")}
           />
           <SidebarItem
             icon={<Globe size={20} />}
-            label="المساعدة"
+            label="Help"
             href="/dashboard/help"
             active={activePath.includes("/dashboard/help")}
           />
           <SidebarItem
             icon={<Settings size={20} />}
-            label="الإعدادات"
+            label="Settings"
             href="/dashboard/settings"
             active={activePath.includes("/dashboard/settings")}
           />
           <SidebarItem
             icon={<Code size={20} />}
-            label="إعدادات API"
+            label="API Settings"
             href="/dashboard/api-settings"
             active={activePath.includes("/dashboard/api-settings")}
           />
@@ -155,7 +155,7 @@ const Sidebar = () => {
           }}
         >
           <LogOut size={20} />
-          <span>تسجيل الخروج</span>
+          <span>Sign Out</span>
         </Button>
       </div>
     </div>
