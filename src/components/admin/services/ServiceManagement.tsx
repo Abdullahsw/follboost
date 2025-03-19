@@ -1279,7 +1279,7 @@ const ServiceManagement = () => {
                                 </TableHeader>
                                 <TableBody>
                                   {Array.isArray(services) &&
-                                    services.map((service) => (
+                                    services.map((service: any) => (
                                       <TableRow
                                         key={service.id}
                                         className="cursor-pointer hover:bg-gray-50"
