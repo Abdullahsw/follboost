@@ -1157,11 +1157,10 @@ const ServiceManagement = () => {
                             );
 
                             // Fetch services
-                            const result =
-                              await serviceProviderManager.fetchServices(
+                            const services =
+                              await ServiceProviderManager.fetchServices(
                                 selectedProvider,
                               );
-                            const services = result.services || [];
 
                             console.log(
                               `Fetched ${services.length} services from provider ${provider.name}`,
