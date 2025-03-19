@@ -122,7 +122,7 @@ const ServiceManagement = () => {
   const [services, setServices] = useState<Service[]>([
     {
       id: "SRV-001",
-      name: "Instagram Arab Followers",
+      name: "Instagram Premium Followers",
       platform: "Instagram",
       category: "Followers",
       price: 0.05,
@@ -130,7 +130,7 @@ const ServiceManagement = () => {
       minOrder: 100,
       maxOrder: 10000,
       description:
-        "Real Arab followers with profile pictures and posts. No password required, just public account.",
+        "Real premium followers with profile pictures and posts. No password required, just public account.",
       provider: "SocialBoost API",
       providerId: "PRV-001",
       providerServiceId: "1",
@@ -234,14 +234,14 @@ const ServiceManagement = () => {
         setApiServices([
           {
             id: "API-001",
-            name: "Instagram Followers [Arab]",
+            name: "Instagram Followers [Premium]",
             category: "Followers",
             platform: "Instagram",
             rate: 0.04,
             min: 100,
             max: 10000,
             description:
-              "High quality Arab followers with profile pictures and posts.",
+              "High quality premium followers with profile pictures and posts.",
             provider: "SocialBoost API",
             providerId: "PRV-001",
             selected: false,
@@ -269,7 +269,7 @@ const ServiceManagement = () => {
             min: 10,
             max: 500,
             description:
-              "Custom comments from real Arab accounts. You can specify the comment text.",
+              "Custom comments from real accounts. You can specify the comment text.",
             provider: "SocialBoost API",
             providerId: "PRV-001",
             selected: false,
@@ -1158,7 +1158,7 @@ const ServiceManagement = () => {
 
                             // Fetch services
                             const services =
-                              await serviceProviderManager.fetchServices(
+                              await ServiceProviderManager.fetchServices(
                                 selectedProvider,
                               );
 
