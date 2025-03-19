@@ -51,7 +51,24 @@ const ServiceManagement = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
-  const [selectedService, setSelectedService] = useState(null);
+  interface Service {
+    id: string;
+    name: string;
+    platform: string;
+    category: string;
+    price: number;
+    cost: number;
+    minOrder: number;
+    maxOrder: number;
+    description: string;
+    provider: string;
+    providerId: string;
+    providerServiceId: string;
+    status: string;
+    profitPercentage: number;
+  }
+
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
   const [isAddServiceDialogOpen, setIsAddServiceDialogOpen] = useState(false);
   const [isEditServiceDialogOpen, setIsEditServiceDialogOpen] = useState(false);
   const [isDeleteServiceDialogOpen, setIsDeleteServiceDialogOpen] =
@@ -99,7 +116,7 @@ const ServiceManagement = () => {
   });
 
   // Sample services data
-  const [services, setServices] = useState([
+  const [services, setServices] = useState<Service[]>([
     {
       id: "SRV-001",
       name: "Instagram Arab Followers",
@@ -1137,7 +1154,7 @@ const ServiceManagement = () => {
                             );
 
                             // Fetch services
-                            const services =
+                            const services: any[] =
                               await serviceProviderManager.fetchServices(
                                 selectedProvider,
                               );
@@ -1148,7 +1165,7 @@ const ServiceManagement = () => {
 
                             // Map to API services format
                             const refreshedServices = services.map(
-                              (service) => ({
+                              (service: any) => ({
                                 id: service.providerServiceId,
                                 name: service.name,
                                 category: service.category,
