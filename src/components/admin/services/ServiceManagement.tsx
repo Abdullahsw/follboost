@@ -1276,35 +1276,38 @@ const ServiceManagement = () => {
                                   </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                  {(services as any[]).map((service) => (
-                                    <TableRow
-                                      key={service.id}
-                                      className="cursor-pointer hover:bg-gray-50"
-                                      onClick={() =>
-                                        toggleApiServiceSelection(service.id)
-                                      }
-                                    >
-                                      <TableCell className="text-center">
-                                        <input
-                                          type="checkbox"
-                                          checked={service.selected}
-                                          onChange={() =>
-                                            toggleApiServiceSelection(
-                                              service.id,
-                                            )
-                                          }
-                                          className="h-4 w-4"
-                                        />
-                                      </TableCell>
-                                      <TableCell>{service.name}</TableCell>
-                                      <TableCell>{service.platform}</TableCell>
-                                      <TableCell>
-                                        {service.rate.toFixed(3)}
-                                      </TableCell>
-                                      <TableCell>{service.min}</TableCell>
-                                      <TableCell>{service.max}</TableCell>
-                                    </TableRow>
-                                  ))}
+                                  {Array.isArray(services) &&
+                                    services.map((service) => (
+                                      <TableRow
+                                        key={service.id}
+                                        className="cursor-pointer hover:bg-gray-50"
+                                        onClick={() =>
+                                          toggleApiServiceSelection(service.id)
+                                        }
+                                      >
+                                        <TableCell className="text-center">
+                                          <input
+                                            type="checkbox"
+                                            checked={service.selected}
+                                            onChange={() =>
+                                              toggleApiServiceSelection(
+                                                service.id,
+                                              )
+                                            }
+                                            className="h-4 w-4"
+                                          />
+                                        </TableCell>
+                                        <TableCell>{service.name}</TableCell>
+                                        <TableCell>
+                                          {service.platform}
+                                        </TableCell>
+                                        <TableCell>
+                                          {service.rate.toFixed(3)}
+                                        </TableCell>
+                                        <TableCell>{service.min}</TableCell>
+                                        <TableCell>{service.max}</TableCell>
+                                      </TableRow>
+                                    ))}
                                 </TableBody>
                               </Table>
                             </div>
