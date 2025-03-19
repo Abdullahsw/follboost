@@ -25,22 +25,17 @@ const ContactUs = () => {
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       <Card>
         <CardContent className="pt-6">
-          <form onSubmit={handleSubmit} className="space-y-4" dir="rtl">
-            <h3 className="text-xl font-bold text-right mb-4">تواصل معنا</h3>
+          <form onSubmit={handleSubmit} className="space-y-4" dir="ltr">
+            <h3 className="text-xl font-bold mb-4">Contact Us</h3>
             <div className="space-y-2">
-              <Label htmlFor="name" className="text-right block">
-                الاسم
+              <Label htmlFor="name" className="block">
+                Name
               </Label>
-              <Input
-                id="name"
-                placeholder="أدخل اسمك الكامل"
-                className="text-right"
-                required
-              />
+              <Input id="name" placeholder="Enter your full name" required />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-right block">
-                البريد الإلكتروني
+              <Label htmlFor="email" className="block">
+                Email
               </Label>
               <Input
                 id="email"
@@ -51,72 +46,65 @@ const ContactUs = () => {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="subject" className="text-right block">
-                الموضوع
+              <Label htmlFor="subject" className="block">
+                Subject
               </Label>
-              <Input
-                id="subject"
-                placeholder="موضوع الرسالة"
-                className="text-right"
-                required
-              />
+              <Input id="subject" placeholder="Message subject" required />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="message" className="text-right block">
-                الرسالة
+              <Label htmlFor="message" className="block">
+                Message
               </Label>
               <Textarea
                 id="message"
-                placeholder="اكتب رسالتك هنا..."
-                className="text-right min-h-[120px]"
+                placeholder="Write your message here..."
+                className="min-h-[120px]"
                 required
               />
             </div>
             <Button type="submit" className="w-full">
-              إرسال الرسالة
+              Send Message
             </Button>
           </form>
         </CardContent>
       </Card>
 
       <div className="space-y-6 text-right">
-        <h3 className="text-xl font-bold">معلومات الاتصال</h3>
+        <h3 className="text-xl font-bold">Contact Information</h3>
         <div className="space-y-4">
-          <div className="flex items-center justify-end gap-3">
+          <div className="flex items-center gap-3">
+            <Mail className="h-6 w-6 text-primary" />
             <div>
-              <h4 className="font-semibold">البريد الإلكتروني</h4>
+              <h4 className="font-semibold">Email</h4>
               <p className="text-gray-600">support@follboost.com</p>
             </div>
-            <Mail className="h-6 w-6 text-primary" />
           </div>
-          <div className="flex items-center justify-end gap-3">
+          <div className="flex items-center gap-3">
+            <Phone className="h-6 w-6 text-primary" />
             <div>
-              <h4 className="font-semibold">رقم الهاتف</h4>
+              <h4 className="font-semibold">Phone Number</h4>
               <p className="text-gray-600">+966 50 123 4567</p>
             </div>
-            <Phone className="h-6 w-6 text-primary" />
           </div>
-          <div className="flex items-center justify-end gap-3">
-            <div>
-              <h4 className="font-semibold">العنوان</h4>
-              <p className="text-gray-600">الرياض، المملكة العربية السعودية</p>
-            </div>
+          <div className="flex items-center gap-3">
             <MapPin className="h-6 w-6 text-primary" />
-          </div>
-          <div className="flex items-center justify-end gap-3">
             <div>
-              <h4 className="font-semibold">الدعم الفني</h4>
-              <p className="text-gray-600">متاح 24/7</p>
+              <h4 className="font-semibold">Address</h4>
+              <p className="text-gray-600">Riyadh, Saudi Arabia</p>
             </div>
+          </div>
+          <div className="flex items-center gap-3">
             <MessageSquare className="h-6 w-6 text-primary" />
+            <div>
+              <h4 className="font-semibold">Technical Support</h4>
+              <p className="text-gray-600">Available 24/7</p>
+            </div>
           </div>
         </div>
 
         <div className="pt-6">
-          <h3 className="text-xl font-bold mb-4">
-            تابعنا على وسائل التواصل الاجتماعي
-          </h3>
-          <div className="flex justify-end gap-4">
+          <h3 className="text-xl font-bold mb-4">Follow Us on Social Media</h3>
+          <div className="flex gap-4">
             <a
               href="https://instagram.com"
               target="_blank"
@@ -145,15 +133,15 @@ const ContactUs = () => {
         </div>
 
         <div className="pt-6">
-          <h3 className="text-xl font-bold mb-4">ساعات العمل</h3>
+          <h3 className="text-xl font-bold mb-4">Working Hours</h3>
           <div className="space-y-2">
             <div className="flex justify-between">
-              <span>9:00 صباحاً - 10:00 مساءً</span>
-              <span>الأحد - الخميس</span>
+              <span>Sunday - Thursday</span>
+              <span>9:00 AM - 10:00 PM</span>
             </div>
             <div className="flex justify-between">
-              <span>10:00 صباحاً - 6:00 مساءً</span>
-              <span>الجمعة - السبت</span>
+              <span>Friday - Saturday</span>
+              <span>10:00 AM - 6:00 PM</span>
             </div>
           </div>
         </div>

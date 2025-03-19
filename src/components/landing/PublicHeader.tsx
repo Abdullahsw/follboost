@@ -31,7 +31,7 @@ const PublicHeader = () => {
               href="#services"
               className="text-gray-700 hover:text-primary px-3 py-2 rounded-md hover:bg-gray-100"
             >
-              الخدمات
+              Services
             </a>
             <a
               href="#api"
@@ -43,28 +43,28 @@ const PublicHeader = () => {
               href="#about"
               className="text-gray-700 hover:text-primary px-3 py-2 rounded-md hover:bg-gray-100"
             >
-              من نحن
+              About Us
             </a>
             <a
               href="#contact"
               className="text-gray-700 hover:text-primary px-3 py-2 rounded-md hover:bg-gray-100"
             >
-              اتصل بنا
+              Contact Us
             </a>
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center text-gray-700 hover:text-primary">
-                <span>المزيد</span>
+                <span>More</span>
                 <ChevronDown className="h-4 w-4 mr-1" />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48 text-right">
                 <DropdownMenuItem>
                   <Link to="/terms" className="w-full text-right">
-                    الشروط والأحكام
+                    Terms & Conditions
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Link to="/privacy" className="w-full text-right">
-                    سياسة الخصوصية
+                    Privacy Policy
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -75,9 +75,9 @@ const PublicHeader = () => {
           <div className="hidden md:flex items-center space-x-4 space-x-reverse">
             <LanguageSwitcher />
             <Button variant="outline" onClick={() => navigate("/login")}>
-              تسجيل الدخول
+              Login
             </Button>
-            <Button onClick={() => navigate("/register")}>إنشاء حساب</Button>
+            <Button onClick={() => navigate("/register")}>Register</Button>
           </div>
 
           {/* Mobile menu button */}
@@ -102,7 +102,7 @@ const PublicHeader = () => {
               className="text-gray-700 hover:text-primary py-2 text-right"
               onClick={() => setIsMenuOpen(false)}
             >
-              الخدمات
+              Services
             </a>
             <a
               href="#api"
@@ -116,35 +116,35 @@ const PublicHeader = () => {
               className="text-gray-700 hover:text-primary py-2 text-right"
               onClick={() => setIsMenuOpen(false)}
             >
-              من نحن
+              About Us
             </a>
             <a
               href="#contact"
               className="text-gray-700 hover:text-primary py-2 text-right"
               onClick={() => setIsMenuOpen(false)}
             >
-              اتصل بنا
+              Contact Us
             </a>
             <Link
               to="/terms"
               className="text-gray-700 hover:text-primary py-2 text-right"
               onClick={() => setIsMenuOpen(false)}
             >
-              الشروط والأحكام
+              Terms & Conditions
             </Link>
             <Link
               to="/privacy"
               className="text-gray-700 hover:text-primary py-2 text-right"
               onClick={() => setIsMenuOpen(false)}
             >
-              سياسة الخصوصية
+              Privacy Policy
             </Link>
             <div className="flex flex-col space-y-2 pt-2 border-t border-gray-100">
               <LanguageSwitcher />
               <Button variant="outline" onClick={() => navigate("/login")}>
-                تسجيل الدخول
+                Login
               </Button>
-              <Button onClick={() => navigate("/register")}>إنشاء حساب</Button>
+              <Button onClick={() => navigate("/register")}>Register</Button>
             </div>
           </nav>
         </div>

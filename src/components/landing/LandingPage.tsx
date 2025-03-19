@@ -21,7 +21,7 @@ const LandingPage = () => {
         <div className="max-w-6xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">FollBoost</h1>
           <p className="text-xl md:text-2xl mb-8">
-            منصة خدمات وسائل التواصل الاجتماعي المتكاملة
+            Integrated Social Media Services Platform
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Button
@@ -29,14 +29,14 @@ const LandingPage = () => {
               variant="secondary"
               onClick={() => navigate("/login")}
             >
-              تسجيل الدخول
+              Login
             </Button>
             <Button
               size="lg"
               className="bg-white text-primary hover:bg-gray-100"
               onClick={() => navigate("/register")}
             >
-              إنشاء حساب جديد
+              Create New Account
             </Button>
           </div>
         </div>
@@ -46,7 +46,7 @@ const LandingPage = () => {
       <section className="py-16 px-4" id="services">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12">
-            خدماتنا وأسعارنا
+            Our Services and Pricing
           </h2>
           <ServicesPricing />
         </div>
@@ -56,7 +56,7 @@ const LandingPage = () => {
       <section className="py-16 px-4 bg-gray-100" id="api">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12">
-            واجهة برمجة التطبيقات (API)
+            Application Programming Interface (API)
           </h2>
           <ApiSection />
         </div>
@@ -65,7 +65,7 @@ const LandingPage = () => {
       {/* About Us Section */}
       <section className="py-16 px-4" id="about">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">من نحن</h2>
+          <h2 className="text-3xl font-bold text-center mb-12">About Us</h2>
           <AboutUs />
         </div>
       </section>
@@ -73,7 +73,7 @@ const LandingPage = () => {
       {/* Contact Us Section */}
       <section className="py-16 px-4 bg-gray-100" id="contact">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">اتصل بنا</h2>
+          <h2 className="text-3xl font-bold text-center mb-12">Contact Us</h2>
           <ContactUs />
         </div>
       </section>
@@ -85,18 +85,18 @@ const LandingPage = () => {
             <div>
               <h3 className="text-xl font-bold mb-4">FollBoost</h3>
               <p className="text-gray-300">
-                منصة خدمات وسائل التواصل الاجتماعي المتكاملة
+                Integrated Social Media Services Platform
               </p>
             </div>
             <div>
-              <h3 className="text-xl font-bold mb-4">روابط سريعة</h3>
+              <h3 className="text-xl font-bold mb-4">Quick Links</h3>
               <ul className="space-y-2">
                 <li>
                   <a
                     href="#services"
                     className="text-gray-300 hover:text-white"
                   >
-                    خدماتنا
+                    Our Services
                   </a>
                 </li>
                 <li>
@@ -106,22 +106,22 @@ const LandingPage = () => {
                 </li>
                 <li>
                   <a href="#about" className="text-gray-300 hover:text-white">
-                    من نحن
+                    About Us
                   </a>
                 </li>
                 <li>
                   <a href="#contact" className="text-gray-300 hover:text-white">
-                    اتصل بنا
+                    Contact Us
                   </a>
                 </li>
               </ul>
             </div>
             <div>
-              <h3 className="text-xl font-bold mb-4">الشروط والأحكام</h3>
+              <h3 className="text-xl font-bold mb-4">Terms & Conditions</h3>
               <ul className="space-y-2">
                 <li>
                   <Link to="/terms" className="text-gray-300 hover:text-white">
-                    الشروط والأحكام
+                    Terms & Conditions
                   </Link>
                 </li>
                 <li>
@@ -129,19 +129,19 @@ const LandingPage = () => {
                     to="/privacy"
                     className="text-gray-300 hover:text-white"
                   >
-                    سياسة الخصوصية
+                    Privacy Policy
                   </Link>
                 </li>
               </ul>
             </div>
             <div>
-              <h3 className="text-xl font-bold mb-4">اللغة</h3>
+              <h3 className="text-xl font-bold mb-4">Language</h3>
               <LanguageSwitcher />
             </div>
           </div>
           <div className="border-t border-gray-700 mt-8 pt-8 text-center">
             <p className="text-gray-300">
-              © {new Date().getFullYear()} FollBoost. جميع الحقوق محفوظة.
+              © {new Date().getFullYear()} FollBoost. All Rights Reserved.
             </p>
           </div>
         </div>
