@@ -1157,7 +1157,7 @@ const ServiceManagement = () => {
                             );
 
                             // Fetch services
-                            const services: ApiService[] =
+                            const services =
                               await serviceProviderManager.fetchServices(
                                 selectedProvider,
                               );
