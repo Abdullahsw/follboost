@@ -1157,8 +1157,12 @@ const ServiceManagement = () => {
                             );
 
                             // Fetch services
+                            // Import the module dynamically to avoid circular dependencies
+                            const { ServiceFetcher } = await import(
+                              "@/lib/api/ServiceFetcher"
+                            );
                             const services =
-                              await ServiceProviderManager.fetchServices(
+                              await ServiceFetcher.fetchServices(
                                 selectedProvider,
                               );
 
