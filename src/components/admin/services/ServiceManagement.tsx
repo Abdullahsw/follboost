@@ -43,7 +43,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { serviceProviderManager } from "@/lib/api/ServiceProviderManager";
+import {
+  serviceProviderManager,
+  ApiService,
+} from "@/lib/api/ServiceProviderManager";
 import { serviceImporter } from "@/lib/api/ServiceImporter";
 
 const ServiceManagement = () => {
@@ -1154,7 +1157,7 @@ const ServiceManagement = () => {
                             );
 
                             // Fetch services
-                            const services: any[] =
+                            const services: ApiService[] =
                               await serviceProviderManager.fetchServices(
                                 selectedProvider,
                               );
